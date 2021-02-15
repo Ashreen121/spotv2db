@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+
+    <!-- Bootstrap CSS using cdn -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    <!-- Bootstrap CSS using source files -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    
+
+    <title>SPOTv2</title>
+  </head>
+
+  <body>
+    <div class="bckgrd">
+      <div class="container">
+        <h1 class="titlespot">SPOT v2.0</h1>
+      </div>
+      <div class="form-group">
+        <label for="usr">Name:</label>
+        <input type="text" class="form-control" id="usr">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd">
+      </div>
+
+      <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-primary">Primary</button>
+    </div></div>
+    
+    
+  </body>
+
+</html>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+  html, body {
+    height: 100%;
+     margin: 0;
+  }
+
+  .titlespot {
+    position: relative;
+    width: 50%;
+    height: 8%;
+    left: 12%;
+
+    font-family: 'Fredoka One', cursive;;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 500%;
+    line-height: 80%;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+  }
+
+  .bckgrd {
+    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
+
+    height: 100%; 
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .blue {
+    color:rgb(0, 162, 255);
+  }
+</style>
