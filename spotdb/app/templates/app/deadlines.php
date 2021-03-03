@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load static %}
+
 <?php
 /**
  * This is an example of how to authenticate a user with a University username
@@ -16,7 +18,7 @@
 
 // @todo Replace the following defined constant with the URL which runs the 
 // program requiring authentication.
-define ("DEVELOPER_URL", "http://studentnet.cs.manchester.ac.uk/authenticate/demonstration.php");
+define ("DEVELOPER_URL", "127.0.0.1:8000/deadlines");
 
 // Define the location of the service on the Computer Science server.
 define("AUTHENTICATION_SERVICE_URL", "http://studentnet.cs.manchester.ac.uk/authenticate/");
@@ -47,7 +49,6 @@ Authenticator::validateUser();
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,58 +60,42 @@ Authenticator::validateUser();
 
     <!-- Bootstrap CSS using cdn -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-    <!-- Bootstrap CSS using source files -->
+    
+    <!-- Bootstrap CSS using soruce files -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     
 
     <title>SPOTv2</title>
   </head>
 
   <body>
+
     <div class="bckgrd">
-      <div class="main">
+
+      <div class="table">
         <h1 class="titlespot">SPOT v2</h1>
-        <form action="/action_page.php">
-          <div class="row">
-            <div class="col-1">
-              <i class="fas fa-user p-3"></i>
-            </div>
-            <div class="col">
-              <div class="form-group"> 
+        <div class="form-group has-search">
+          <span class="fa fa-search form-control-feedback"></span>
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+      </div>  
 
-                <input type="username" class="form-control" id="username" placeholder="UoM username" name="username" required>
-                
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-1">
-              <i class="fas fa-key p-3"></i>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <input type="password" class="form-control" id="pwd" placeholder="Enter UoM password" name="pswd" required>
-              </div>
-            </div>
-            
-          </div>
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col"> 
-              <div class="form-group form-check">
-            <label class="form-check-label p-3">
-              <input class="form-check-input" type="checkbox" name="remember"> Remember me
-            </label>
-          </div>
-
-          <button href="http://127.0.0.1:8000/deadlines" type="submit" class="btn btn-primary">Log In</button></div>
-          </div>
-         
-        </form>
+      <div class="">
+        
       </div>
-    </div>   
+      <ul>
+        <li>
+          Your username is 
+          <?php
+            echo Authenticator::getUsername();
+          ?>
+        </li>
+      </ul>
+    </div>
+    
+    
+    
+   
   </body>
 
 </html>
@@ -121,12 +106,26 @@ Authenticator::validateUser();
     height: 100%;
      margin: 0;
   }
-
-  .main {
+  .table {
     position: fixed;
     width: 50%;
-    top: 21%;
-    left: 23%;
+    left: 37%;
+  }
+
+  .has-search .form-control {
+      padding-left: 2.375rem;
+  }
+
+  .has-search .form-control-feedback {
+      position: absolute;
+      z-index: 2;
+      display: block;
+      width: 2.375rem;
+      height: 2.375rem;
+      line-height: 2.375rem;
+      text-align: center;
+      pointer-events: none;
+      color: #aaa;
   }
 
   .titlespot {
@@ -136,11 +135,9 @@ Authenticator::validateUser();
     font-family: 'Fredoka One', cursive;;
     font-style: normal;
     font-weight: normal;
-    font-size: 500%;
+    font-size: 300%;
     line-height: 80%;
     /* identical to box height */
-
-    text-align: center;
 
     color: #FFFFFF;
   }
@@ -154,8 +151,7 @@ Authenticator::validateUser();
     background-repeat: no-repeat;
     background-size: cover;
   }
-  
-  .blue {
-    color:rgb(0, 162, 255);
-  }
+
+
+
 </style>
