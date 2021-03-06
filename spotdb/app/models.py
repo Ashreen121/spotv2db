@@ -1,8 +1,30 @@
 from django.db import models
+# module to define database tables and relations
 
-# Create your models here.
+# Primary keys are handled by django, "id" attribute
+# Course Leaders - TutorID, name, contact
+class CourseLeader(models.Model):
+    Name = models.CharField(max_length=25)
+    TutorContact = models.EmailField()
 
-class Deadline(models.Model):
-    assignment = models.CharField(max_length=200)
-    due_date = models.DateTimeField('date published')
+class Course(models.Model):
+    Name = models.CharField(max_length=50)
+    Leader = models.ForeignKey(CourseLeader, on_delete=models.CASCADE)
 
+class Student(models.Model):
+    Name = models.CharField(max_length=25)
+
+class Enrollment(models.Model):
+    Date = models.DateTimeField('Date of Enrollment')
+    Student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
+class Mark(models.Model):
+    Student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    Assignment = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+class CourseItem(models.Model):
+    Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+class Grading(models.Model):
+    ijunk = 0
