@@ -35,6 +35,19 @@ cd spotdb
 ```bash
 py manage.py runserver
 ```
+## Removing .pyc files (automatically generated files)
+ Some reasons you may want to remove these files are because many of these files are generated upon the running of the project. To prevent the project folder from taking up too much space, you may want to remove all these files after some development on the project.  
+ 
+ Use this command if you want to remove all .pyc files from the project. You must be in the root directory of the project if you want to delete all the .pyc files from the project repository. 
+
+ ```bash
+git rm *.pyc
+```
+If the command above doesn't work, try this one:
+
+ ```bash
+git rm -f *.pyc
+```
 
 ## Developers
 ### Front-end team
