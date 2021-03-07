@@ -1,157 +1,223 @@
-{% load static %}
-
-{% load static %}
-
-<?php
-/**
- * This is an example of how to authenticate a user with a University username
- * and password.
- * 
- * It required the instillation of the file Authenticator.php in the same 
- * directory.
- * 
- * @todo The developer must edit this file to define the constant DEVELOPER_URL.
- * 
- * @author Iain Hart (iain@cs.man.ac.uk)
- * @date 1st November 2013
- */
-
-// @todo Replace the following defined constant with the URL which runs the 
-// program requiring authentication.
-define ("DEVELOPER_URL", "127.0.0.1:8000/deadlines");
-
-// Define the location of the service on the Computer Science server.
-define("AUTHENTICATION_SERVICE_URL", "http://studentnet.cs.manchester.ac.uk/authenticate/");
-
-// Define the location of CAS's logtout service on the Computer Science server.
-define("AUTHENTICATION_LOGOUT_URL", "http://studentnet.cs.manchester.ac.uk/systemlogout.php");
-
-// Locate the Authenticator class.
-require_once("Authenticator.php");
-
-// Start a php session to store variables. This will be used to hold the ticket
-// issued to the user so that when the user returns from CAS we know that
-// we are interacting with the same user.
-session_start();
-
-// Uncomment this next line if study year is required but this will necessitate
-// an extra query on the database so only use it if genuinely needed.
-// Authenticator::requireStudyLevel();
-
-// Validate the user.
-Authenticator::validateUser();
-
-// To invalidate a user uncomment the following. It uses header() to send the
-// user to CAS's logout page on the Computer Science server. To work you must
-// not have returned any output to the client before calling it.
-
-// Authenticator::invalidateUser();
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-
-    <!-- Bootstrap CSS using cdn -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-    
-    <!-- Bootstrap CSS using soruce files -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    
-
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <title>SPOTv2</title>
   </head>
-
-  <body>
-
-    <div class="bckgrd">
-
-      <div class="table">
-        <h1 class="titlespot">SPOT v2</h1>
-        <div class="form-group has-search">
-          <span class="fa fa-search form-control-feedback"></span>
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-      </div>  
-
-      <div class="">
-        
-      </div>
-      <ul>
-        <li>
-          Your username is 
-          <?php
-            echo Authenticator::getUsername();
-          ?>
-        </li>
-      </ul>
+  <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
+  <body id="bootstrap-overide">
+    <div>
+      <span class="material-icons login">account_circle</span>
     </div>
-    
-    
-    
-   
+    <div id="object-center">
+      <h1>SPOT v2</h1>
+      <div class="form-outline">
+        <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
+      </div>
+      <table class="table table-borderless">
+        <colgroup>
+          <col class="course" span="1">
+          <col class="course-info" span="2">
+        </colgroup>
+        <thead>
+          <tr id="table-head">
+            <th id="cell-topleft" scope="col">Courses</th>
+            <th scope="col">Assignments</th>
+            <th id="cell-topright" scope="col">Due Dates</th>
+          </tr>
+        </thead>
+        <tbody class="course-row">
+          <tr>
+            <th scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+        <tbody class="course-row">
+          <tr>
+            <th scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+        <tbody class="course-row">
+          <tr>
+            <th scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+        <tbody class="course-row">
+          <tr>
+            <th scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+        <tbody class="course-row">
+          <tr>
+            <th scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+        <tbody class="course-row">
+          <tr>
+            <th id="cell-bottomleft" scope="row" rowspan="3">COMP#####</th>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td>dd/mm/yyyy</td>
+          </tr>
+          <tr>
+            <td>Assignment #</td>
+            <td id="cell-bottomright">dd/mm/yyyy</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
-
 </html>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
-  html, body {
-    height: 100%;
-     margin: 0;
-  }
-  .table {
-    position: fixed;
-    width: 50%;
-    left: 37%;
-  }
+<style media="screen">
 
-  .has-search .form-control {
-      padding-left: 2.375rem;
-  }
+body{
+  /* I have no idea why the code below doesn't give me a gradient, please help */
+  /* background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%); */
+  background: #1976D2;
+}
 
-  .has-search .form-control-feedback {
-      position: absolute;
-      z-index: 2;
-      display: block;
-      width: 2.375rem;
-      height: 2.375rem;
-      line-height: 2.375rem;
-      text-align: center;
-      pointer-events: none;
-      color: #aaa;
-  }
+.material-icons.login{
+  color: white;
+  font-size: 48px;
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
 
-  .titlespot {
-    position: relative;
-    width: 50%;
+#object-center{
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+}
 
-    font-family: 'Fredoka One', cursive;;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 300%;
-    line-height: 80%;
-    /* identical to box height */
+h1{
+  font-family: 'Fredoka One', cursive;
+  font-size: 60px;
+  color: white;
+}
 
-    color: #FFFFFF;
-  }
+#form1{
+  border-radius: 33px;
+  background: #E3F2FD;
+  border: 4px solid white;
+  font-family: 'Comfortaa', cursive;
+}
 
-  .bckgrd {
-    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
+.table, #bootstrap-overide th, #bootstrap-overide td{
+  line-height: 5px;
+  font-family: 'Comfortaa', cursive;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: separate;
+  border-spacing: 0px;
+  margin-top: 25px;
+}
 
-    height: 100%; 
+td{
+  font-size: 12px;
+}
 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+thead{
+  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  border-top-left-radius: 33px;
+}
 
+tbody{
+  background: #c9f1fd;
+}
 
+#bootstrap-overide thead th{
+  line-height: 40px;
+  border-top: 4px solid white;
+  color: white;
+}
 
+/* This is the only way I could find to make bordered tables. I'm sorry */
+/* It looks weird on Firefox, but should work on Chrome and Edge. Will fix later */
+th, td{
+  border-right: 4px solid white;
+}
+
+#bootstrap-overide th,
+#bootstrap-overide tbody.course-row tr:last-child td{
+  border-bottom: 4px solid white;
+}
+
+th:first-child{
+  border-left: 4px solid white;
+}
+
+#cell-topleft{
+  border-top-left-radius: 33px;
+}
+
+#cell-topright{
+  border-top-right-radius: 33px;
+}
+
+#cell-bottomleft{
+  border-bottom-left-radius: 33px;
+}
+
+#cell-bottomright{
+  border-bottom-right-radius: 33px;
+}
 </style>
