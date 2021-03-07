@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 # module to define database tables and relations
 
 # Primary keys are handled by django, "id" attribute
@@ -25,6 +26,7 @@ class Mark(models.Model):
 
 class CourseItem(models.Model):
     Course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    DateDue = models.DateTimeField('Due date', default=datetime.now())
 
 class Grading(models.Model):
     ijunk = 0
