@@ -179,8 +179,8 @@ Authenticator::validateUser();
 
 body{
   /* I have no idea why the code below doesn't give me a gradient, please help */
-  /* background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%); */
-  background: #1976D2;
+  /*  fix? */
+  background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
 }
 
 .material-icons.login{
