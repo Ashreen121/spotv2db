@@ -1,4 +1,5 @@
-<!--{% load static %}-->
+{% load static %}
+{% load scrapy %}
 
 <?php
 /**
@@ -62,15 +63,19 @@ Authenticator::validateUser();
     <!-- Bootstrap CSS using source files -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    
 
     <title>SPOTv2</title>
   </head>
+
 
   <body>
     <div class="bckgrd">
       <div class="main">
         <h1 class="titlespot">SPOT v2</h1>
+        <div id="id_div">
+            {% scrape_now 'Foo' as success_message %}
+            <strong> {{ success_message }} </strong>
+        </div>
         <form action="/action_page.php">
           <div class="row">
             <div class="col-1">
@@ -120,6 +125,8 @@ Authenticator::validateUser();
   </body>
 
 </html>
+
+
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
