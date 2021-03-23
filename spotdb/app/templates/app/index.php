@@ -59,64 +59,63 @@ Authenticator::validateUser();
     
 
     <!-- Bootstrap CSS using cdn -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-    <!-- Bootstrap CSS using source files -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>SPOTv2</title>
+
+
+
+    <title>SpotV2</title>
   </head>
-
-
   <body>
     <div class="bckgrd">
       <div class="main">
-        <h1 class="titlespot">SPOT v2</h1>
-        <div id="id_div">
-            {% scrape_now 'Foo' as success_message %}
-            <strong> {{ success_message }} </strong>
+        <h1 class="titlespot">SpotV2</h1>
+
+        <div>
+          {% scrape_now 'https://studentnet.cs.manchester.ac.uk/me/spot/' as success_message %}
+          <strong> {{ success_message }} </strong>
         </div>
-        <form action="/action_page.php">
+
+        <form action="deadlines">
           <div class="row">
             <div class="col-1">
-              <i class="fas fa-user p-3"></i>
+              <i class="fa fa-user-circle-o"></i>
             </div>
             <div class="col">
               <div class="form-group"> 
 
-                <input type="username" class="form-control" id="username" placeholder="UoM username" name="username" required>
+                <input type="username" class="form-control" id="username" placeholder="UoM Username" name="email" required>
                 
               </div>
             </div>
           </div>
-
           <div class="row">
             <div class="col-1">
-              <i class="fas fa-key p-3"></i>
+               <i class="fa fa-lock"></i>
             </div>
             <div class="col">
               <div class="form-group">
-                <input type="password" class="form-control" id="pwd" placeholder="Enter UoM password" name="pswd" required>
+                <input type="password" class="form-control" id="pwd" placeholder="UoM Password" name="password" required>
               </div>
             </div>
             
           </div>
           <div class="row">
-            <div class="col-1"></div>
+            <div class="col-1">
+            </div>
             <div class="col"> 
               <div class="form-group form-check">
-            <label class="form-check-label p-3">
-              <input class="form-check-input" type="checkbox" name="remember"> Remember me
-            </label>
-          </div>
-          <li>
-              Your username is 
-                  <?php
-                      echo Authenticator::getUsername();
-                  ?>
-          </li>
+                <label class="form-check-label p-3">
+                  <input class="form-check-input" type="checkbox" name="remember"> Remember me
+                </label>
+              </div>
 
-          <button href="http://127.0.0.1:8000/deadlines" type="submit" class="btn btn-primary">Log In</button></div>
+              <a href="deadlines">
+                <button type="submit" class="btn btn-info">Log In</button>
+              </a>
+              
+            </div>
           </div>
          
         </form>
@@ -130,45 +129,69 @@ Authenticator::validateUser();
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+  @import url("https://fonts.googleapis.com/css?family=Comfortaa");
   html, body {
     height: 100%;
      margin: 0;
   }
-
   .main {
     position: fixed;
     width: 50%;
     top: 21%;
     left: 23%;
   }
-
+  .form-check-label {
+    border-radius: 100%;
+    font-family: Comfortaa;
+    color: white;
+  }
   .titlespot {
     position: relative;
     width: 50%;
-
     font-family: 'Fredoka One', cursive;;
     font-style: normal;
     font-weight: normal;
     font-size: 500%;
     line-height: 80%;
     /* identical to box height */
-
     text-align: center;
-
     color: #FFFFFF;
   }
-
+  .form-control {
+    border-radius: 20px;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+  }
+  .form-control::placeholder {
+    font-family: Comfortaa;
+    color: #6EC4DF;
+  }
+  .fa {
+    font-size: 200%;
+    text-align: left;
+  }
+  .btn-info {
+    background: #6EC4DF;
+    border-radius: 20px;
+    width: 25%;  
+    font-family: Comfortaa;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: none;
+  }
+  .btn-light {
+    border-radius: 20px;
+    width: 25%;  
+    font-family: Comfortaa;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
   .bckgrd {
-    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
-
+    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%
+);
     height: 100%; 
-
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
   }
   
-  .blue {
-    color:rgb(0, 162, 255);
-  }
 </style>
+
