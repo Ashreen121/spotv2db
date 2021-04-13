@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>SPOTv2</title>
   </head>
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
@@ -18,7 +19,7 @@
       <div class="form-outline">
         <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
       </div>
-      <table class="table table-borderless">
+      <table id="table" class="table table-borderless">
         <colgroup>
           <col class="course" span="1">
           <col class="course-info" span="2">
@@ -30,107 +31,106 @@
             <th id="cell-topright" scope="col">Due Dates</th>
           </tr>
         </thead>
-        <tbody class="course-row">
-          <tr>
-            <th scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-        </tbody>
-        <tbody class="course-row">
-          <tr>
-            <th scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-        </tbody>
-        <tbody class="course-row">
-          <tr>
-            <th scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-        </tbody>
-        <tbody class="course-row">
-          <tr>
-            <th scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-        </tbody>
-        <tbody class="course-row">
-          <tr>
-            <th scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-        </tbody>
-        <tbody class="course-row">
-          <tr>
-            <th id="cell-bottomleft" scope="row" rowspan="3">COMP#####</th>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td>dd/mm/yyyy</td>
-          </tr>
-          <tr>
-            <td>Assignment #</td>
-            <td id="cell-bottomright">dd/mm/yyyy</td>
-          </tr>
-        </tbody>
+
       </table>
     </div>
+
+    <script type="text/javascript">
+      var crs = ["COMP10120", "COMP11120", "COMP12111", "COMP15111", "COMP16321", "COMP11212", "COMP13212", "COMP15212", "COMP16421"];
+      var crswrk = ["Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4", "Assignment 5",
+                    "Assignment 6", "Assignment 7", "Assignment 8", "Assignment 9", "Assignment 10",
+                    "Assignment 11", "Assignment 12"];
+      var crswrk_date = ["01/01/2021", "02/01/2021", "03/01/2021", "04/01/2021", "05/01/2021",
+                         "06/01/2021", "07/01/2021", "08/01/2021", "09/01/2021", "10/01/2021",
+                         "11/01/2021", "12/01/2021"];
+
+      for (var i = 0; i < crs.length; i++) {
+        var crs_row = document.createElement("tbody");
+        crs_row.setAttribute("id", "course[" + i + "]");
+        crs_row.setAttribute("onclick", "toggleInfo(" + i + ")");
+        crs_row.setAttribute("onmouseover", "mouseOver(" + i + ")");
+        crs_row.setAttribute("onmouseleave", "mouseLeave(" + i + ")");
+
+
+        for (var j = 0; j < crswrk.length; j++) {
+          var crswrk_row = document.createElement("tr");
+
+          // For the Courses coloumn
+          if (j == 0) {
+            var crs_th = document.createElement("th");
+            crs_th.setAttribute("scope", "row");
+            crs_th.setAttribute("rowspan", crswrk.length);
+            crs_th.innerHTML = crs[i];
+            crswrk_row.appendChild(crs_th);
+          }
+
+          var crswrk_cell = document.createElement("td");
+          var crswrk_date_cell = document.createElement("td");
+          crswrk_cell.innerHTML = crswrk[j];
+          crswrk_date_cell.innerHTML = crswrk_date[j];
+          crswrk_row.appendChild(crswrk_cell);
+          crswrk_row.appendChild(crswrk_date_cell);
+          crs_row.appendChild(crswrk_row);
+        }
+        document.getElementById("table").appendChild(crs_row);
+        for (k = 3; k < crswrk.length; k++) {
+          crs_row.querySelectorAll("tr")[k].style.display = "none";
+        }
+      }
+
+      var click_turn = 0;
+      function toggleInfo(crs_index) {
+        crs_row_clicked = document.getElementById("course[" + crs_index + "]");
+        if (click_turn % 2 == 0) {
+
+          // Hides the entire table
+          for (x = 0; x < crs.length; x++) {
+            document.getElementById("course[" + x + "]").style.display = "none";
+          }
+          // Unhides the clicked course
+          crs_row_clicked.style.display = "table-row-group";
+          // Unhides all the assignments for the clicked course
+          for (k = 0; k < crswrk.length; k++) {
+            crs_row_clicked.querySelectorAll("tr")[k].style.display = "table-row";
+          }
+
+        }
+
+        else if (click_turn % 2 == 1) {
+
+          // Hides the assignments
+          for (y = 3; y < crswrk.length; y++) {
+            crs_row_clicked.querySelectorAll("tr")[y].style.display = "none";
+          }
+          // Unhides the other courses
+          for (z = 0; z < crs.length; z++) {
+            document.getElementById("course[" + z + "]").style.display = "table-row-group";
+          }
+
+        }
+        click_turn++;
+      }
+
+      function mouseOver(crs_index) {
+        var tbody = document.getElementById("course[" + crs_index + "]");
+        tbody.style.backgroundColor = "#edfaff";
+      }
+
+      function mouseLeave(crs_index) {
+        var tbody = document.getElementById("course[" + crs_index + "]");
+        tbody.style.backgroundColor = "#c9f1fd";
+      }
+
+    </script>
+
   </body>
 </html>
 
 <style media="screen">
 
-body{
-  /* I have no idea why the code below doesn't give me a gradient, please help */
-  /* background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%); */
-  background: #1976D2;
+html {
+  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  height: 100%;
 }
 
 .material-icons.login{
@@ -166,8 +166,6 @@ h1{
   font-family: 'Comfortaa', cursive;
   text-align: center;
   vertical-align: middle;
-  border-collapse: separate;
-  border-spacing: 0px;
   margin-top: 25px;
 }
 
@@ -177,47 +175,20 @@ td{
 
 thead{
   background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-  border-top-left-radius: 33px;
 }
 
 tbody{
   background: #c9f1fd;
+  cursor: pointer;
+}
+
+thead, tbody, col{
+  border: 4px solid white;
 }
 
 #bootstrap-overide thead th{
   line-height: 40px;
-  border-top: 4px solid white;
   color: white;
 }
 
-/* This is the only way I could find to make bordered tables. I'm sorry */
-/* It looks weird on Firefox, but should work on Chrome and Edge. Will fix later */
-th, td{
-  border-right: 4px solid white;
-}
-
-#bootstrap-overide th,
-#bootstrap-overide tbody.course-row tr:last-child td{
-  border-bottom: 4px solid white;
-}
-
-th:first-child{
-  border-left: 4px solid white;
-}
-
-#cell-topleft{
-  border-top-left-radius: 33px;
-}
-
-#cell-topright{
-  border-top-right-radius: 33px;
-}
-
-#cell-bottomleft{
-  border-bottom-left-radius: 33px;
-}
-
-#cell-bottomright{
-  border-bottom-right-radius: 33px;
-}
 </style>
