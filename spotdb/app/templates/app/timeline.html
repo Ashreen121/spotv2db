@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+ <link rel="stylesheet" type="text/css" href="TLS.css">
+ <meta charset="utf-8">
+ 
+</head>
+
+<body>
+  
+   <section class="timeline">
+     <ul>
+       <li>
+         <div>
+           <time id="first"></time>
+           <p id="fir"></p>
+            <p id="signal"></p>
+         </div>
+       </li>
+       
+       <li>
+         <div>
+           <time id="second"></time>
+            <p id="sec"></p>
+         </div> 
+       </li>
+
+        <li>
+         <div>
+           <time id="third"></time>
+            <p id="thi"></p>
+         </div > 
+       </li>
+
+        <li>
+         <div>
+           <time id="fourth"></time>
+            <p id="fou"></p>
+         </div> 
+       </li>
+       <!-- more list items here -->
+
+     </ul>
+       <script type="text/javascript">
+          var today = new Date();
+          var courseinfor1 = {duedate:"2021/04/03 18:00",coursename: "COMPxxx",cwkname:"cousework1"};
+          document.getElementById("first").innerHTML = courseinfor1.duedate;  
+          document.getElementById("fir").innerHTML = courseinfor1.coursename + " "+courseinfor1.cwkname; 
+         
+          var courseinfor2 = {duedate:"2021/04/05 18:00",coursename: "COMPxxx",cwkname:"cousework2"};
+          document.getElementById("second").innerHTML = courseinfor2.duedate;  
+          document.getElementById("sec").innerHTML = courseinfor2.coursename + " "+courseinfor2.cwkname;
+
+          var courseinfor3 = {duedate:"2021/04/07 18:00",coursename: "COMPxxx",cwkname:"cousework3"};
+          document.getElementById("third").innerHTML = courseinfor3.duedate;  
+          document.getElementById("thi").innerHTML = courseinfor3.coursename + " "+courseinfor3.cwkname;
+
+          var courseinfor4 = {duedate:"2021/04/09 18:00",coursename: "COMPxxx",cwkname:"cousework4"};
+          document.getElementById("fourth").innerHTML = courseinfor4.duedate;  
+          document.getElementById("fou").innerHTML = courseinfor4.coursename + " "+courseinfor4.cwkname;
+
+
+         //detect how long till due date  
+          var message ="";
+          var d1 = courseinfor1.duedate;
+          var due = new Date(d1);
+          var datediff = due.getTime()- today.getTime();
+          var daydiff =Math.floor(datediff / (24 * 3600 * 1000));
+          if (daydiff<=7) {
+              message = "due soon";
+          }
+          document.getElementById("signal").innerHTML = message;
+
+          
+
+
+
+
+        </script>
+    
+  
+
+    
+   </section>
+</body>
+</html>
