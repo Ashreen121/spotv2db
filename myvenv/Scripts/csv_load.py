@@ -12,41 +12,39 @@ mStudents.objects.all().delete()
 mCourseItems.objects.all().delete()
 
 def run(*args):
-    # webscrapped csvs must be given as arguents
-    if 'User.csv' in args and 'Courses.csv' in args:
         
-        # do know will come in 2 files, courses then users
-        fhandlerUsers = open("User.csv")
-        fhandlerCourses = open("Courses.csv")
-        # may need to adjust to format of csvs e.g newline
-        courseReader = csv.DictReader(fhandlerCourses)
-        userReader = csv.DictReader(fhandlerUsers)
+    # do know will come in 2 files, courses then users
+    fhandlerUsers = open("User.csv")
+    fhandlerCourses = open("Courses.csv")
+    # may need to adjust to format of csvs e.g newline
+    courseReader = csv.DictReader(fhandlerCourses)
+    userReader = csv.DictReader(fhandlerUsers)
 
+    
+    for row in courseReader:
+        # update non-foreign key tables first mCourseLeaders
+        kwargs = {"Name":row[3],"TutorContact":row[4]}
+        leader, exists = mCourseLeaders.objects.get_or_create(**kwargs)
         
-        for row in courseReader:
-            # update non-foreign key tables first mCourseLeaders
-            kwargs = {"Name":row[3],"TutorContact":row[4]}
-            leader, exists = mCourseLeaders.objects.get_or_create(**kwargs)
-            
-            # leader grabbed, build course and save
-            kwargs = {"Name":row[0], "Leader":leader.id, "moduleCredits":row[1],
-                    "nEnrolled":row[2],"assesementMethod":row[4]}
-            course, exists = mCourse.objects.get_or_create(**kwargs)
+        # leader grabbed, build course and save
+        kwargs = {"Name":row[0], "Leader":leader.id, "moduleCredits":row[1],
+                "nEnrolled":row[2],"assesementMethod":row[4]}
+        course, exists = mCourse.objects.get_or_create(**kwargs)
 
 
-        for row in userReader:
-            # update non-foreign key table student first
-            student, exists = mStudents.objects.get_or_create(Name = row[4])
+    for row in userReader:
+        # update non-foreign key table student first
+        student, exists = mStudents.objects.get_or_create(Name = row[4])
 
-            # couseitems
-            course = mCourse.objects.get(Name=row[0])
-            if course = None: raise exception("Course not in database")
-            kwargs = {"Name":row[1],"Course":course.id,"Deadline":row[3]}
-            courseItem, exists = mCourseItems.objects.get_or_create(**kwargs)
+        # couseitems
+        course = mCourse.objects.get(Name=row[0])
+        if course = None: raise exception("Course not in database")
+        kwargs = {"Name":row[1],"Course":course.id,"Deadline":row[3]}
+        courseItem, exists = mCourseItems.objects.get_or_create(**kwargs)
 
-            # enrollment
-            mEnrollment.objects.get_or_create(Student = student.id, Course = course.id)
+        # enrollment
+        mEnrollment.objects.get_or_create(Student = student.id, Course = course.id)
 
-            # marks
-            kwargs = {"Student":student.id, "Assignment":courseItem.id, "Attainment":row[2]}
-            marks, exists = mMarks.objects.get_or_create(**kwargs)
+        # marks
+        kwargs = {"Student":student.id, "Assignment":courseItem.id, "Attainment":row[2]}
+        marks, exists = mMarks.objects.get_or_create(**kwargs)
