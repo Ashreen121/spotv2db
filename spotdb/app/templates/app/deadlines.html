@@ -1,4 +1,6 @@
 {% load static %}
+{% load scrapy %}
+
 
 <?php
 /**
@@ -60,6 +62,10 @@ Authenticator::validateUser();
   </head>
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
   <body id="bootstrap-overide">
+    <div>
+      {% scrape_now 'https://studentnet.cs.manchester.ac.uk/me/spot/' as success_message %}
+      <strong> {{ success_message }} </strong>
+    </div>
     <div class="row">
       <div class="col-sm-3">
         <section class="timeline">
@@ -108,22 +114,11 @@ Authenticator::validateUser();
                  }
                  document.getElementById("signal"+number).innerHTML = message;
                }
-                 
-
 
               //detect how long till due date  
 
-
-               
-
-
-
-
              </script>
-         
-        
 
-         
         </section>
       </div>
       <div class="col-sm-9 bckgrd">
@@ -142,24 +137,26 @@ Authenticator::validateUser();
             </colgroup>
             <thead>
               <tr id="table-head">
-                <th id="cell-topleft" scope="col">Courses</th>
-                <th scope="col">Assignments</th>
-                <th id="cell-topright" scope="col">Due Dates</th>
+                <th id="cell-topleft" scope="col", style="width: 33%;">Courses</th>
+                <th scope="col", style="width: 33%;" >Assignments</th>
+                <th id="cell-topright" scope="col", style="width: 33.5%;">Due Dates</th>
               </tr>
             </thead>
           </table>
-          <div class="tablelocker", id = "packageThing">
+          <div class="tablelocker ", id = "packageThing">
             <table id="table" class="table table-borderless" style="margin: 0;">
               <colgroup>
                 <col class="course" span="1">
                 <col class="course-info" span="2">
               </colgroup>
               
-              
             </table>
           </div>
           
         </div>
+        <style>.addToCalendar {background-color:#44c767;border-radius:28px;border:1px solid #18ab29;display:inline-block;cursor:pointer;color:#ffffff;font-family:Arial;font-size:16px;padding:16px 31px;text-decoration:none;text-shadow:0px 1px 0px #2f6627;}.addToCalendar:hover {background-color:#5cbf2a;}.addToCalendar:active {position:relative;top:1px;}
+        </style>
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20210413T211500Z%2F20210413T214500Z" class="btn btn-info">Add to Calendar</a>
       </div>
     </div>
     
@@ -188,6 +185,7 @@ Authenticator::validateUser();
               var crs_th = document.createElement("th");
               crs_th.setAttribute("scope", "row");
               crs_th.setAttribute("rowspan", crswrk.length);
+              crs_th.setAttribute("style", "width: 33%;");
               crs_th.innerHTML = crs[i];
               crswrk_row.appendChild(crs_th);
             }
@@ -196,6 +194,9 @@ Authenticator::validateUser();
             var crswrk_date_cell = document.createElement("td");
             crswrk_cell.innerHTML = crswrk[j];
             crswrk_date_cell.innerHTML = crswrk_date[j];
+            crswrk_cell.setAttribute("style", "width: 33%;");
+            crswrk_date_cell.setAttribute("style", "width: 33%;");
+
             crswrk_row.appendChild(crswrk_cell);
             crswrk_row.appendChild(crswrk_date_cell);
             crs_row.appendChild(crswrk_row);
@@ -278,6 +279,16 @@ Authenticator::validateUser();
     height: 100vh;
     margin: 0;
   }
+  .col-sm-9 {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+  }
+  .col-sm-3 {
+    box-shadow: inset -4px 0px 4px rgba(0, 0, 0, 0.25);
+    padding-right: 2%;
+  }
 
   .timeline {
     font: normal 16px/1.5 "Helvetica Neue", sans-serif;
@@ -285,6 +296,7 @@ Authenticator::validateUser();
     color: #fff;
     overflow-x: hidden;
     padding-bottom: 50px;
+    
   } 
 
 
@@ -366,9 +378,9 @@ Authenticator::validateUser();
 
 
 .material-icons.login{
+  float: right;
   color: white;
   font-size: 300%;
-  position: absolute;
   right: 5%;
   top: 5%;
 }
@@ -386,11 +398,14 @@ h1{
   background: #E3F2FD;
   border: 4px solid white;
   font-family: 'Comfortaa', cursive;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .tablelocker {
-  height: 65vh;
+  height: 45vh;
   overflow-y: auto;
+  border-bottom: 4px solid white;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
 }
 
 .table, #bootstrap-overide th, #bootstrap-overide td{
@@ -398,8 +413,7 @@ h1{
   font-family: 'Comfortaa', cursive;
   text-align: center;
   vertical-align: middle;
-  margin-top: 25px;
-
+  margin-top: 10px;
 }
 
 td{
@@ -416,12 +430,46 @@ tbody{
 }
 
 thead, tbody, col{
-  border: 4px solid white;
+  border-top: 4px solid white;
+  border-left: 4px solid white;
+  border-right: 4px solid white;
 }
 
 #bootstrap-overide thead th{
   line-height: 40px;
   color: white;
+}
+
+::-webkit-scrollbar {
+  width: .3vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: white; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6ec4de; 
+}
+
+.btn-info {
+  background: #c9f1fd;
+  border-radius: 20px;
+  width: 25%;  
+  font-family: Comfortaa;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border: none;
+  margin-top: 3vw;
+  float: right;
 }
 
 </style>
