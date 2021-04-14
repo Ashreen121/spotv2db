@@ -57,7 +57,10 @@ Authenticator::validateUser();
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>SPOTv2</title>
   </head>
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
@@ -143,6 +146,7 @@ Authenticator::validateUser();
               </tr>
             </thead>
           </table>
+          
           <div class="tablelocker ", id = "packageThing">
             <table id="table" class="table table-borderless" style="margin: 0;">
               <colgroup>
@@ -154,9 +158,13 @@ Authenticator::validateUser();
           </div>
           
         </div>
-        <style>.addToCalendar {background-color:#44c767;border-radius:28px;border:1px solid #18ab29;display:inline-block;cursor:pointer;color:#ffffff;font-family:Arial;font-size:16px;padding:16px 31px;text-decoration:none;text-shadow:0px 1px 0px #2f6627;}.addToCalendar:hover {background-color:#5cbf2a;}.addToCalendar:active {position:relative;top:1px;}
-        </style>
-        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20210413T211500Z%2F20210413T214500Z" class="btn btn-info">Add to Calendar</a>
+
+
+
+        <!-- <Here we need to change the link to our ics file if we get to it!!! -->
+
+       <a href="https://campaigns.litmus.com/_email/test/newnewyork.ics" class="btn btn-info" style=""><span style="mso-text-raise:15pt;"><i class = "fa fa-calendar-plus-o"></i> Add  all to your Calendar</span></a>
+
       </div>
     </div>
     
@@ -197,8 +205,51 @@ Authenticator::validateUser();
             crswrk_cell.setAttribute("style", "width: 33%;");
             crswrk_date_cell.setAttribute("style", "width: 33%;");
 
+//the calendar buttons
+            var crswrk_calendar = document.createElement("div");
+            crswrk_calendar.setAttribute("class", "dropdown");
+            crswrk_calendar.setAttribute("style", "float: right;");
+
+            var cal_btn = document.createElement("button");
+            cal_btn.setAttribute("class", "btn btn-info dropdown-toggle");
+            cal_btn.setAttribute("data-toggle", "dropdown");
+            cal_btn.setAttribute("style", "margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;");
+
+            var cal_ico = document.createElement("i");
+            cal_ico.setAttribute("class", "fa fa-calendar-plus-o");
+
+            cal_btn.appendChild(cal_ico);
+
+            var cal_menu = document.createElement("div");
+            cal_menu.setAttribute("class", "dropdown-menu");
+
+            var cal_link1 = document.createElement("a");
+            cal_link1.setAttribute("class", "dropdown-item");
+            cal_link1.setAttribute("href", "https://outlook.office.com/calendar/0/deeplink/compose?body=Learn%20all%20about%20the%20rules%20of%20the%20Motorway%20and%20how%20to%20access%20the%20fast%20lane.%0A%0Ahttps%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGridlock_%28Doctor_Who%29&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=New%20Earth&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject=Welcome%20to%20the%20Motorway");
+            cal_link1.setAttribute("target", "_blank");
+            cal_link1.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
+            cal_link1.innerHTML = "Outlook.com";
+
+            var cal_link2 = document.createElement("a");
+            cal_link2.setAttribute("class", "dropdown-item");
+            cal_link2.setAttribute("href", "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details=Learn%20all%20about%20the%20rules%20of%20the%20Motorway%20and%20how%20to%20access%20the%20fast%20lane.%0A%0Ahttps%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGridlock_%28Doctor_Who%29&location=New%20Earth&text=Welcome%20to%20the%20Motorway");
+            cal_link2.setAttribute("target", "_blank");
+            cal_link2.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
+            cal_link2.innerHTML = "Google";
+
+            cal_menu.appendChild(cal_link1);
+            cal_menu.appendChild(cal_link2);
+
+            crswrk_calendar.appendChild(cal_btn);
+            crswrk_calendar.appendChild(cal_menu);
+
+            crswrk_date_cell.appendChild(crswrk_calendar);
+
+//end of calendar buttons
+
             crswrk_row.appendChild(crswrk_cell);
             crswrk_row.appendChild(crswrk_date_cell);
+
             crs_row.appendChild(crswrk_row);
           }
           document.getElementById("table").appendChild(crs_row);
@@ -252,15 +303,17 @@ Authenticator::validateUser();
 
       </script>
 
+<!-- < table lookup  -->
+
     <script>
-    $(document).ready(function(){
-      $("#form1").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#table tbody").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      $(document).ready(function(){
+        $("#form1").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#table tbody").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
         });
       });
-    });
     </script>
 
     
@@ -298,11 +351,6 @@ Authenticator::validateUser();
     padding-bottom: 50px;
     
   } 
-
-
-
-
-
 
   .timeline ul li {
     list-style-type: none;
@@ -363,113 +411,109 @@ Authenticator::validateUser();
     border-color: transparent #6EC4DF transparent transparent;
   }
 
-/*html {
-  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-  height: 100%;
-}*/
-.bckgrd {
-  background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
-  height: 100%; 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 0;
-}
+  .bckgrd {
+    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+  }
 
 
-.material-icons.login{
-  float: right;
-  color: white;
-  font-size: 300%;
-  right: 5%;
-  top: 5%;
-}
+  .material-icons.login{
+    float: right;
+    color: white;
+    font-size: 300%;
+    right: 5%;
+    top: 5%;
+  }
 
 
 
-h1{
-  font-family: 'Fredoka One', cursive;
-  font-size: 500%;
-  color: white;
-}
+  h1{
+    font-family: 'Fredoka One', cursive;
+    font-size: 500%;
+    color: white;
+  }
 
-#form1{
-  border-radius: 33px;
-  background: #E3F2FD;
-  border: 4px solid white;
-  font-family: 'Comfortaa', cursive;
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
+  #form1{
+    border-radius: 33px;
+    background: #E3F2FD;
+    border: 4px solid white;
+    font-family: 'Comfortaa', cursive;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
 
-.tablelocker {
-  height: 45vh;
-  overflow-y: auto;
-  border-bottom: 4px solid white;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
-}
+  .tablelocker {
+    height: 45vh;
+    overflow-y: auto;
+    border-bottom: 4px solid white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
+  }
 
-.table, #bootstrap-overide th, #bootstrap-overide td{
-  line-height: 60%;
-  font-family: 'Comfortaa', cursive;
-  text-align: center;
-  vertical-align: middle;
-  margin-top: 10px;
-}
+  .table, #bootstrap-overide th, #bootstrap-overide td{
+    line-height: 60%;
+    font-family: 'Comfortaa', cursive;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 10px;
+  }
 
-td{
-  font-size: 70%;
-}
+  td{
+    font-size: 70%;
+  }
 
-thead{
-  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-}
+  thead{
+    background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  }
 
-tbody{
-  background: #c9f1fd;
-  cursor: pointer;
-}
+  tbody{
+    background: #c9f1fd;
+    cursor: pointer;
+  }
 
-thead, tbody, col{
-  border-top: 4px solid white;
-  border-left: 4px solid white;
-  border-right: 4px solid white;
-}
+  thead, tbody, col{
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+    border-right: 4px solid white;
+  }
 
-#bootstrap-overide thead th{
-  line-height: 40px;
-  color: white;
-}
+  #bootstrap-overide thead th{
+    line-height: 40px;
+    color: white;
+  }
 
-::-webkit-scrollbar {
-  width: .3vw;
-}
+  ::-webkit-scrollbar {
+    width: .3vw;
+  }
 
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
-  border-radius: 10px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: white; 
-  border-radius: 10px;
-}
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: white; 
+    border-radius: 10px;
+  }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #6ec4de; 
-}
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6ec4de; 
+  }
 
-.btn-info {
-  background: #c9f1fd;
-  border-radius: 20px;
-  width: 25%;  
-  font-family: Comfortaa;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  border: none;
-  margin-top: 3vw;
-  float: right;
-}
+  .btn-info {
+    background: #c9f1fd;
+    border-radius: 20px;
+    width: 40%;  
+    font-family: Comfortaa;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: none;
+    margin-top: 3vw;
+    float: right;
+  }
 
 </style>
