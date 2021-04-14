@@ -5,13 +5,13 @@ from django.db import models
 # Course Leaders - TutorID, name, contact
 class mCourseLeaders(models.Model):
     Name = models.CharField(max_length=25, unique = True)
-    TutorContact = models.EmailField()
+    TutorContact = models.CharField(max_length=25)
 
 class mCourse(models.Model):
     Name = models.CharField(max_length=50, unique = True)
     Leader = models.ForeignKey(mCourseLeaders, on_delete=models.CASCADE)
-    moduleCredits = models.IntegerField()
-    nEnrolled = models.IntegerField()
+    moduleCredits = models.CharField(max_length=25)
+    nEnrolled = models.CharField(max_length=25)
     assesmentMethod = models.CharField(max_length=50)
 
 class mStudents(models.Model):
