@@ -1,5 +1,5 @@
 {% load static %}
-{% load scrapy %}
+
 
 <?php
 /**
@@ -73,7 +73,6 @@ Authenticator::validateUser();
         <h1 class="titlespot">SpotV2</h1>
 
         <div>
-          {% scrape_now 'https://studentnet.cs.manchester.ac.uk/me/spot/' as success_message %}
           <strong> {{ success_message }} </strong>
         </div>
 
