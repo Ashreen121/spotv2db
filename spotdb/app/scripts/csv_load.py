@@ -42,12 +42,12 @@ def run(*args):
         # couseitems
         course = mCourse.objects.get(Name=row[0])
         if course == None: raise Exception("Course not in database")
-        kwargs = {"Name":row[1],"Course":course.id,"Deadline":row[3]}
+        kwargs = {"Name":row[1],"Course":course,"Deadline":row[3]}
         courseItem, exists = mCourseItems.objects.get_or_create(**kwargs)
 
         # enrollment
-        mEnrollment.objects.get_or_create(Student = student.id, Course = course.id)
+        mEnrollment.objects.get_or_create(Student = student, Course = course)
 
         # marks
-        kwargs = {"Student":student.id, "Assignment":courseItem.id, "Attainment":row[2]}
+        kwargs = {"Student":student, "Assignment":courseItem, "Attainment":row[2]}
         marks, exists = mMarks.objects.get_or_create(**kwargs)
