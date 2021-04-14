@@ -16,7 +16,7 @@
 
 // @todo Replace the following defined constant with the URL which runs the 
 // program requiring authentication.
-define ("DEVELOPER_URL", "http://studentnet.cs.manchester.ac.uk/authenticate/demonstration.php");
+define ("DEVELOPER_URL", "http://localhost/app/details.php");
 
 // Define the location of the service on the Computer Science server.
 define("AUTHENTICATION_SERVICE_URL", "http://studentnet.cs.manchester.ac.uk/authenticate/");
@@ -47,7 +47,6 @@ Authenticator::validateUser();
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,45 +69,8 @@ Authenticator::validateUser();
   <body>
     <div class="bckgrd">
       <div class="main">
-        <h1 class="titlespot">SPOT v2</h1>
-        <form action="/action_page.php">
-          <div class="row">
-            <div class="col-1">
-              <i class="fas fa-user p-3"></i>
-            </div>
-            <div class="col">
-              <div class="form-group"> 
-
-                <input type="username" class="form-control" id="username" placeholder="UoM username" name="username" required>
-                
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-1">
-              <i class="fas fa-key p-3"></i>
-            </div>
-            <div class="col">
-              <div class="form-group">
-                <input type="password" class="form-control" id="pwd" placeholder="Enter UoM password" name="pswd" required>
-              </div>
-            </div>
-            
-          </div>
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col"> 
-              <div class="form-group form-check">
-            <label class="form-check-label p-3">
-              <input class="form-check-input" type="checkbox" name="remember"> Remember me
-            </label>
-          </div>
-
-          <button href="http://127.0.0.1:8000/deadlines" type="submit" class="btn btn-primary">Log In</button></div>
-          </div>
-         
-        </form>
+        <h1 class="titlespot">name of assignment</h1>
+        
       </div>
     </div>   
   </body>
