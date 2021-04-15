@@ -70,7 +70,7 @@ Authenticator::validateUser();
     <div class="row">
       <div class="col-sm-3">
         <section class="timeline">
-          <ul id = 'ul'>
+          <ul id = 'ul' style="padding: 0;">
             
             <!-- more list items here -->
             {% for assignment in assignmentList %}
