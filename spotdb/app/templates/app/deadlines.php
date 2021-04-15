@@ -73,53 +73,23 @@ Authenticator::validateUser();
           <ul id = 'ul'>
             
             <!-- more list items here -->
+            {% for assignment in assignmentList %}
+
+
+
+                <li id="li">
+                  <div id="div">
+                    <time>{{assignment.DateDue}}</time>
+                    <p> {{assignment.Course}} </p>
+                    <p> {{assignment}} </p>
+                  </div>
+                </li>
+            {% endfor %}
+
 
           </ul>
 
-            <script type="text/javascript">
-               var today = new Date();
-               var courseInfos = [{duedate: "{{2021/04/02 18:00}}",coursename: "COMPxxx",cwkname:"cousework1"}, 
-                                 {duedate: "2021/04/07 18:00",coursename: "COMPxxx",cwkname:"cousework2"}, 
-                                 {duedate: "2021/04/11 19:00",coursename: "COMPxxx",cwkname:"cousework3"}, 
-                                 {duedate: "2021/04/09 18:00",coursename: "COMPxxx",cwkname:"cousework4"}];
-               var courseInfos = courseInfos.sort ((a,b) => new Date(a.duedate).getTime() - new Date(b.duedate).getTime());
-              
-               for (i=0; i<courseInfos.length; i++) {
-                 var number = i.toString();
-
-                 ul = document.getElementById('ul');
-                 
-                 var newLi = document.createElement('li');
-                 var newLi = document.getElementById("ul").appendChild(newLi);
-                 var newLi = newLi.setAttribute("id", "li"+number);
-                 var newDiv = document.createElement('div');
-                 var newDiv = document.getElementById("li"+number).appendChild(newDiv);
-                 var newDiv = newDiv.setAttribute("id", "div"+number);
-                 var  newTime = document.createElement('time');
-                 var  newTime = document.getElementById("div"+number).appendChild(newTime);
-                 var newP = document.createElement('p');
-                 var newP = document.getElementById("div"+number).appendChild(newP);
-                 var newSignal = document.createElement('signal');
-                 var newSignal = document.getElementById("div"+number).appendChild(newSignal);
-                 var newSignal = newSignal.setAttribute("id", "signal"+number);
-                 
-                 newTime.innerHTML = courseInfos[i].duedate;
-                 newP.innerHTML = courseInfos[i].coursename + " "+courseInfos[i].cwkname;
-                 
-                 var message ="";
-                 var d1 = courseInfos[i].duedate;
-                 var due = new Date(d1);
-                 var datediff = due.getTime()- today.getTime();
-                 var daydiff =Math.floor(datediff / (24 * 3600 * 1000));
-                 if (daydiff<=7) {
-                     message = "due soon";
-                 }
-                 document.getElementById("signal"+number).innerHTML = message;
-               }
-
-              //detect how long till due date  
-
-             </script>
+            
 
         </section>
       </div>
@@ -168,8 +138,8 @@ Authenticator::validateUser();
                           </button>
 
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
-                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt={{assignment.DateDue}}&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt={{assignment.DateDue}}&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{assignment.DateDue}}%{{assignment.DateDue}}&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
                           </div>
 
                         </div>
@@ -189,8 +159,8 @@ Authenticator::validateUser();
                           </button>
 
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
-                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt={{assignment.DateDue}}&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt={{assignment.DateDue}}&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{assignment.DateDue}}%{{assignment.DateDue}}&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
                           </div>
 
                         </div>
@@ -208,8 +178,8 @@ Authenticator::validateUser();
                           </button>
 
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
-                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt={{assignment.DateDue}}&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt={{assignment.DateDue}}&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{assignment.DateDue}}%{{assignment.DateDue}}&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
                           </div>
 
                         </div>
@@ -228,8 +198,8 @@ Authenticator::validateUser();
                           </button>
 
                           <div class="dropdown-menu">
-                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
-                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt={{assignment.DateDue}}&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt={{assignment.DateDue}}&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{assignment.DateDue}}%{{assignment.DateDue}}&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
                           </div>
 
                         </div>
