@@ -164,6 +164,18 @@ Authenticator::validateUser();
     </div>
     
       <script type="text/javascript">
+      
+
+      {% for key, value in context %}
+      
+      var crswrk = value
+      var crswrk_date = []
+      for (let assignment of crswrk) {
+        crswrk_date.push(assignment.DueDate)
+      }
+
+      {% endfor %}
+
         var crs = ["COMP10120", "COMP11120", "COMP12111", "COMP15111", "COMP16321", "COMP11212", "COMP13212", "COMP15212", "COMP16421"];
         var crswrk = ["Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4", "Assignment 5",
                       "Assignment 6", "Assignment 7", "Assignment 8", "Assignment 9", "Assignment 10",
