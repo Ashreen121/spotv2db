@@ -334,10 +334,12 @@ Authenticator::validateUser();
     width: 100%;
     margin: 0;
     overflow-y:auto;
+    display: flex;
+    height: 100vh;
+    
 
   }
   .col {
-    height: 100vh;
     margin: 0;
   }
   .col-sm-9 {
@@ -345,6 +347,7 @@ Authenticator::validateUser();
     padding-right: 10%;
     padding-top: 2%;
     padding-bottom: 5%;
+
   }
   .col-sm-3 {
     box-shadow: inset -4px 0px 4px rgba(0, 0, 0, 0.25);
@@ -359,7 +362,6 @@ Authenticator::validateUser();
     background: #FFFFFF;
     color: #fff;
     overflow-x: hidden;
-    padding-bottom: 50px;
     
   } 
 
