@@ -11,31 +11,27 @@ def index(request):
 def deadlines(request):
 
     # Example of using context to render out database items
-    context = {}
+    data = {}
 
     course_item_count = CourseItem.objects.all().count()
     courses_count = Course.objects.all().count()
    
-    for i in range(1, courses_count):
+    for i in range(1, courses_count+1):
         name = Course.objects.get(id=i).Name
-        assign_list = []
-        for i in range(1, course_item_count):
-            if CourseItem.objects.get(id=i).Course.Name == name:
-                assign_list.append(CourseItem.objects.get(id=i))
-
-        context[name] = assign_list
         
-    
+        assign_list = []
+        for j in range(1, course_item_count+1):
+            if CourseItem.objects.get(id=j).Course.Name == name:
+                assign_list.append(CourseItem.objects.get(id=j))
+
+        data[name] = assign_list
+        
+    context = {'items' : data}
+
 
     return render(request, 'app/deadlines.php', context)
 
 
-    # Example of using context to render out database items
-    # obj = Student.objects.get(id=1)
-    # context = {
-    #     'student_object1': obj
-    # }
-    # return render(request, 'app/deadlines.html', context)
 
 
 

@@ -1,6 +1,5 @@
 {% load static %}
 
-
 <?php
 /**
  * This is an example of how to authenticate a user with a University username
@@ -48,6 +47,7 @@ Authenticator::validateUser();
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -56,477 +56,177 @@ Authenticator::validateUser();
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>SPOTv2</title>
   </head>
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
   <body id="bootstrap-overide">
-
+    <div>
+      <span class="material-icons login">account_circle</span>
     </div>
-    <div class="row">
-      <div class="col-sm-3">
-        <section class="timeline">
-          <ul id = 'ul'>
-            
-            <!-- more list items here -->
-
-          </ul>
-            <script type="text/javascript">
-               var today = new Date();
-               var courseInfos = [{duedate: "2021/04/02 18:00",coursename: "COMPxxx",cwkname:"cousework1"}, 
-                                 {duedate: "2021/04/07 18:00",coursename: "COMPxxx",cwkname:"cousework2"}, 
-                                 {duedate: "2021/04/11 19:00",coursename: "COMPxxx",cwkname:"cousework3"}, 
-                                 {duedate: "2021/04/09 18:00",coursename: "COMPxxx",cwkname:"cousework4"}];
-               var courseInfos = courseInfos.sort ((a,b) => new Date(a.duedate).getTime() - new Date(b.duedate).getTime());
-              
-               for (i=0; i<courseInfos.length; i++) {
-                 var number = i.toString();
-
-                 ul = document.getElementById('ul');
-                 
-                 var newLi = document.createElement('li');
-                 var newLi = document.getElementById("ul").appendChild(newLi);
-                 var newLi = newLi.setAttribute("id", "li"+number);
-                 var newDiv = document.createElement('div');
-                 var newDiv = document.getElementById("li"+number).appendChild(newDiv);
-                 var newDiv = newDiv.setAttribute("id", "div"+number);
-                 var  newTime = document.createElement('time');
-                 var  newTime = document.getElementById("div"+number).appendChild(newTime);
-                 var newP = document.createElement('p');
-                 var newP = document.getElementById("div"+number).appendChild(newP);
-                 var newSignal = document.createElement('signal');
-                 var newSignal = document.getElementById("div"+number).appendChild(newSignal);
-                 var newSignal = newSignal.setAttribute("id", "signal"+number);
-                 
-                 newTime.innerHTML = courseInfos[i].duedate;
-                 newP.innerHTML = courseInfos[i].coursename + " "+courseInfos[i].cwkname;
-                 
-                 var message ="";
-                 var d1 = courseInfos[i].duedate;
-                 var due = new Date(d1);
-                 var datediff = due.getTime()- today.getTime();
-                 var daydiff =Math.floor(datediff / (24 * 3600 * 1000));
-                 if (daydiff<=7) {
-                     message = "due soon";
-                 }
-                 document.getElementById("signal"+number).innerHTML = message;
-               }
-
-              //detect how long till due date  
-
-             </script>
-
-        </section>
+    <div id="object-center">
+      <h1>SPOT v2</h1>
+      <div class="form-outline">
+        <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
       </div>
-      <div class="col-sm-9 bckgrd">
-        <div>
-          <span class="material-icons login">account_circle</span>
-        </div>
-        <div id="object-center">
-          <h1>SPOT v2</h1>
-          <div class="form-outline">
-            <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
-          </div>
-          <table class = "table", style="margin-bottom: 0;">
-            <colgroup>
-              <col class="course" span="1">
-              <col class="course-info" span="2">
-            </colgroup>
-            <thead>
-              <tr id="table-head">
-                <th id="cell-topleft" scope="col", style="width: 33%;">Courses</th>
-                <th scope="col", style="width: 33%;" >Assignments</th>
-                <th id="cell-topright" scope="col", style="width: 33.5%;">Due Dates</th>
-              </tr>
-            </thead>
-          </table>
+      <table class="table table-borderless">
+        <colgroup>
+          <col class="course" span="1">
+          <col class="course-info" span="2">
+        </colgroup>
+        <thead>
+          <tr id="table-head">
+            <th id="cell-topleft" scope="col">Courses</th>
+            <th scope="col">Assignments</th>
+            <th id="cell-topright" scope="col">Due Dates</th>
+          </tr>
+        </thead>
 
-          <div class="tablelocker ", id = "packageThing">
-            <table id="table" class="table table-borderless" style="margin: 0;">
-              <colgroup>
-                <col class="course" span="1">
-                <col class="course-info" span="2">
-              </colgroup>
-              
-            </table>
-          </div>
-          
-        </div>
+        {% for key, value in items.items %}
+          <tbody class="course-row">
+
+          {% for assignment in value %}
+            {% if forloop.counter == 1 %}
+            <tr>
+              <th scope="row" rowspan="{{ value|length }}">{{key}}</th>
+              <td>{{assignment}}</td>
+              <td>{{assignment.DateDue}}</td>
+            </tr>
+
+            {% elif forloop.parentloop.counter == items|length and forloop.counter == 1 %}
+            <tr>
+              <th scope="row" rowspan="{{ value|length }}" id="yoyo">{{key}}</th>
+              <td>{{assignment}}</td>
+              <td>{{assignment.DateDue}}</td>
+            </tr >
+
+            {% elif forloop.parentloop.counter == items|length and forloop.counter == value|length %}
+            <tr>
+              <td>{{assignment}}</td>
+              <td id="cell-bottomright">{{assignment.DateDue}}</td>
+            </tr>
 
 
+            {% else %}
+            <tr>
+              <td>{{assignment}}</td>
+              <td>{{assignment.DateDue}}</td>
+            </tr>
+            {% endif %}
 
-        <!-- <Here we need to change the link to our ics file if we get to it!!! -->
 
-       <a href="https://campaigns.litmus.com/_email/test/newnewyork.ics" class="btn btn-info" style=""><span style="mso-text-raise:15pt;"><i class = "fa fa-calendar-plus-o"></i> Add  all to your Calendar</span></a>
+          {% endfor %}
 
-      </div>
-    </div>
-    
-      <script type="text/javascript">
-
-        {% for key, value in context %}
-        
-        var crswrk = value
-        var crswrk_date = []
-        for (let assignment of crswrk) {
-          crswrk_date.push(assignment.DueDate)
-        }
-
+          </tbody>
         {% endfor %}
 
-        var crs = ["COMP10120", "COMP11120", "COMP12111", "COMP15111", "COMP16321", "COMP11212", "COMP13212", "COMP15212", "COMP16421"];
-        var crswrk = ["Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4", "Assignment 5",
-                      "Assignment 6", "Assignment 7", "Assignment 8", "Assignment 9", "Assignment 10",
-                      "Assignment 11", "Assignment 12"];
-        var crswrk_date = ["01/01/2021", "02/01/2021", "03/01/2021", "04/01/2021", "05/01/2021",
-                           "06/01/2021", "07/01/2021", "08/01/2021", "09/01/2021", "10/01/2021",
-                           "11/01/2021", "12/01/2021"];
-
-        for (var i = 0; i < crs.length; i++) {
-          var crs_row = document.createElement("tbody");
-          crs_row.setAttribute("id", "course[" + i + "]");
-          crs_row.setAttribute("onclick", "toggleInfo(" + i + ")");
-          crs_row.setAttribute("onmouseover", "mouseOver(" + i + ")");
-          crs_row.setAttribute("onmouseleave", "mouseLeave(" + i + ")");
-
-
-          for (var j = 0; j < crswrk.length; j++) {
-            var crswrk_row = document.createElement("tr");
-
-            // For the Courses coloumn
-            if (j == 0) {
-              var crs_th = document.createElement("th");
-              crs_th.setAttribute("scope", "row");
-              crs_th.setAttribute("rowspan", crswrk.length);
-              crs_th.setAttribute("style", "width: 33%;");
-              crs_th.innerHTML = crs[i];
-              crswrk_row.appendChild(crs_th);
-            }
-
-            var crswrk_cell = document.createElement("td");
-            var crswrk_date_cell = document.createElement("td");
-            crswrk_cell.innerHTML = crswrk[j];
-            crswrk_date_cell.innerHTML = crswrk_date[j];
-            crswrk_cell.setAttribute("style", "width: 33%;");
-            crswrk_date_cell.setAttribute("style", "width: 33%;");
-
-//the calendar buttons
-            var crswrk_calendar = document.createElement("div");
-            crswrk_calendar.setAttribute("class", "dropdown");
-            crswrk_calendar.setAttribute("style", "float: right;");
-
-            var cal_btn = document.createElement("button");
-            cal_btn.setAttribute("class", "btn btn-info dropdown-toggle");
-            cal_btn.setAttribute("data-toggle", "dropdown");
-            cal_btn.setAttribute("style", "margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;");
-
-            var cal_ico = document.createElement("i");
-            cal_ico.setAttribute("class", "fa fa-calendar-plus-o");
-
-            cal_btn.appendChild(cal_ico);
-
-            var cal_menu = document.createElement("div");
-            cal_menu.setAttribute("class", "dropdown-menu");
-
-            var cal_link1 = document.createElement("a");
-            cal_link1.setAttribute("class", "dropdown-item");
-            cal_link1.setAttribute("href", "https://outlook.office.com/calendar/0/deeplink/compose?body=Sample%20Deadline%20Calendar%20event&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=Spot%20Version%20two&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject=Sample%20Deadline%20Event");
-            cal_link1.setAttribute("target", "_blank");
-            cal_link1.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
-            cal_link1.innerHTML = "Outlook.com";
-
-            var cal_link2 = document.createElement("a");
-            cal_link2.setAttribute("class", "dropdown-item");
-            cal_link2.setAttribute("href", "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details=Sample%20Deadline%20Calendar%20event&location=Spot%20Version%20two&text=Sample%20Deadline%20Event");
-            cal_link2.setAttribute("target", "_blank");
-            cal_link2.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
-            cal_link2.innerHTML = "Google";
-
-            cal_menu.appendChild(cal_link1);
-            cal_menu.appendChild(cal_link2);
-
-            crswrk_calendar.appendChild(cal_btn);
-            crswrk_calendar.appendChild(cal_menu);
-
-            crswrk_date_cell.appendChild(crswrk_calendar);
-
-//end of calendar buttons
-
-            crswrk_row.appendChild(crswrk_cell);
-            crswrk_row.appendChild(crswrk_date_cell);
-
-            crs_row.appendChild(crswrk_row);
-          }
-          document.getElementById("table").appendChild(crs_row);
-          for (k = 3; k < crswrk.length; k++) {
-            crs_row.querySelectorAll("tr")[k].style.display = "none";
-          }
-        }
-
-        var click_turn = 0;
-        function toggleInfo(crs_index) {
-          crs_row_clicked = document.getElementById("course[" + crs_index + "]");
-          if (click_turn % 2 == 0) {
-
-            // Hides the entire table
-            for (x = 0; x < crs.length; x++) {
-              document.getElementById("course[" + x + "]").style.display = "none";
-            }
-            // Unhides the clicked course
-            crs_row_clicked.style.display = "table-row-group";
-            // Unhides all the assignments for the clicked course
-            for (k = 0; k < crswrk.length; k++) {
-              crs_row_clicked.querySelectorAll("tr")[k].style.display = "table-row";
-            }
-
-          }
-
-          else if (click_turn % 2 == 1) {
-
-            // Hides the assignments
-            for (y = 3; y < crswrk.length; y++) {
-              crs_row_clicked.querySelectorAll("tr")[y].style.display = "none";
-            }
-            // Unhides the other courses
-            for (z = 0; z < crs.length; z++) {
-              document.getElementById("course[" + z + "]").style.display = "table-row-group";
-            }
-
-          }
-          click_turn++;
-        }
-
-        function mouseOver(crs_index) {
-          var tbody = document.getElementById("course[" + crs_index + "]");
-          tbody.style.backgroundColor = "#edfaff";
-        }
-
-        function mouseLeave(crs_index) {
-          var tbody = document.getElementById("course[" + crs_index + "]");
-          tbody.style.backgroundColor = "#c9f1fd";
-        }
-
-      </script>
-
-<!-- < table lookup  -->
-
-    <script>
-      $(document).ready(function(){
-        $("#form1").on("keyup", function() {
-          var value = $(this).val().toLowerCase();
-          $("#table tbody").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-          });
-        });
-      });
-    </script>
-
-    
-
+       
+      </table>
+    </div>
   </body>
 </html>
 
 <style media="screen">
-  .row {
-    width: 100%;
-    margin: 0;
-    overflow-y:auto;
-    display: flex;
-    height: 100vh;
-    
 
-  }
-  .col {
-    margin: 0;
-  }
-  .col-sm-9 {
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 2%;
-    padding-bottom: 5%;
+body{
+  /* I have no idea why the code below doesn't give me a gradient, please help */
+  /* background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%); */
+  background: #1976D2;
+}
 
-  }
-  .col-sm-3 {
-    box-shadow: inset -4px 0px 4px rgba(0, 0, 0, 0.25);
-    padding-right: 2%;
-    height: 100vh;
-    overflow-y: auto;
+.material-icons.login{
+  color: white;
+  font-size: 48px;
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
 
-  }
+#object-center{
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+}
 
-  .timeline {
-    font: normal 16px/1.5 "Helvetica Neue", sans-serif;
-    background: #FFFFFF;
-    color: #fff;
-    overflow-x: hidden;
-    
-  } 
+h1{
+  font-family: 'Fredoka One', cursive;
+  font-size: 60px;
+  color: white;
+}
 
-  .timeline ul li {
-    list-style-type: none;
-    position: relative;
-    width: 6px;
-    margin: 0 auto;
-    margin-left: 50px;
-    padding-top: 50px;
-    background: #6EC4DF;
-  }
-   
-  .timeline ul li::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: inherit;
-  }
+#form1{
+  border-radius: 33px;
+  background: #E3F2FD;
+  border: 4px solid white;
+  font-family: 'Comfortaa', cursive;
+}
 
-  .timeline ul li div {
-    position: relative;
-    bottom: 0;
-    width: 400px;
-    padding: 15px;
-    background: linear-gradient(65.61deg, #6EC4DF 20.78%, #1D79D3 96.25%);
-  }
-   
-  .timeline ul li div::before {
-    content: '';
-    position: absolute;
-    bottom: 7px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-  }
+.table, #bootstrap-overide th, #bootstrap-overide td{
+  line-height: 5px;
+  font-family: 'Comfortaa', cursive;
+  text-align: center;
+  vertical-align: middle;
+  border-collapse: separate;
+  border-spacing: 0px;
+  margin-top: 25px;
+}
 
-  .timeline ul li:nth-child(odd) div {
-    left: 45px;
-  }
-   
-  .timeline ul li:nth-child(odd) div::before {
-    left: -15px;
-    border-width: 8px 16px 8px 0;
-    border-color: transparent #6EC4DF transparent transparent;
-  }
+td{
+  font-size: 12px;
+}
 
-  .timeline ul li:nth-child(even) div {
-    left: 45px;
-  }
-   
-  .timeline ul li:nth-child(even) div::before {
-    left: -15px;
-    border-width: 8px 16px 8px 0;
-    border-color: transparent #6EC4DF transparent transparent;
-  }
+thead{
+  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  border-top-left-radius: 33px;
+  border-bottom-left-radius: 33px;
+}
 
-  .bckgrd {
-    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
-    height: 100%; 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0;
-  }
+tbody{
+  background: #c9f1fd;
+}
 
+#bootstrap-overide thead th{
+  line-height: 40px;
+  border-top: 4px solid white;
+  color: white;
+}
 
-  .material-icons.login{
-    float: right;
-    color: white;
-    font-size: 300%;
-    right: 5%;
-    top: 5%;
-  }
+/* This is the only way I could find to make bordered tables. I'm sorry */
+/* It looks weird on Firefox, but should work on Chrome and Edge. Will fix later */
+th, td{
+  border-right: 4px solid white;
+}
 
+#bootstrap-overide th,
+#bootstrap-overide tbody.course-row tr:last-child td{
+  border-bottom: 4px solid white;
+}
 
+th:first-child{
+  border-left: 4px solid white;
+}
 
-  h1{
-    font-family: 'Fredoka One', cursive;
-    font-size: 500%;
-    color: white;
-  }
+#cell-topleft{
+  border-top-left-radius: 33px;
+}
 
-  #form1{
-    border-radius: 33px;
-    background: #E3F2FD;
-    border: 4px solid white;
-    font-family: 'Comfortaa', cursive;
-    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-  }
+#cell-topright{
+  border-top-right-radius: 33px;
+}
 
-  .tablelocker {
-    height: 45vh;
-    overflow-y: auto;
-    border-bottom: 4px solid white;
-    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
-  }
+#cell-bottomleft{
+  border-bottom-left-radius: 33px;
+}
 
-  .table, #bootstrap-overide th, #bootstrap-overide td{
-    line-height: 60%;
-    font-family: 'Comfortaa', cursive;
-    text-align: center;
-    vertical-align: middle;
-    margin-top: 10px;
-  }
+#cell-bottomright{
+  border-bottom-right-radius: 33px;
+}
 
-  td{
-    font-size: 70%;
-  }
+/* #yoyo {
+  border-radius:30px 0 0 30px;
+} */
 
-  thead{
-    background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-  }
-
-  tbody{
-    background: #c9f1fd;
-    cursor: pointer;
-  }
-
-  thead, tbody, col{
-    border-top: 4px solid white;
-    border-left: 4px solid white;
-    border-right: 4px solid white;
-  }
-
-  #bootstrap-overide thead th{
-    line-height: 40px;
-    color: white;
-  }
-
-  ::-webkit-scrollbar {
-    width: .3vw;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey; 
-    border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: white; 
-    border-radius: 10px;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6ec4de; 
-  }
-
-  .btn-info {
-    background: #c9f1fd;
-    border-radius: 20px;
-    width: 40%;  
-    font-family: Comfortaa;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border: none;
-    margin-top: 3vw;
-    float: right;
-  }
-
+/* table th:last-child{
+  border-radius:0 30px 30px 0;
+} */
 </style>
