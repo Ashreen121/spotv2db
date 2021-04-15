@@ -56,177 +56,416 @@ Authenticator::validateUser();
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>SPOTv2</title>
   </head>
+
+
+
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
   <body id="bootstrap-overide">
-    <div>
-      <span class="material-icons login">account_circle</span>
-    </div>
-    <div id="object-center">
-      <h1>SPOT v2</h1>
-      <div class="form-outline">
-        <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
+    <div class="row">
+      <div class="col-sm-3">
+        <section class="timeline">
+          <ul id = 'ul'>
+            
+            <!-- more list items here -->
+
+          </ul>
+
+            <script type="text/javascript">
+               var today = new Date();
+               var courseInfos = [{duedate: "{{2021/04/02 18:00}}",coursename: "COMPxxx",cwkname:"cousework1"}, 
+                                 {duedate: "2021/04/07 18:00",coursename: "COMPxxx",cwkname:"cousework2"}, 
+                                 {duedate: "2021/04/11 19:00",coursename: "COMPxxx",cwkname:"cousework3"}, 
+                                 {duedate: "2021/04/09 18:00",coursename: "COMPxxx",cwkname:"cousework4"}];
+               var courseInfos = courseInfos.sort ((a,b) => new Date(a.duedate).getTime() - new Date(b.duedate).getTime());
+              
+               for (i=0; i<courseInfos.length; i++) {
+                 var number = i.toString();
+
+                 ul = document.getElementById('ul');
+                 
+                 var newLi = document.createElement('li');
+                 var newLi = document.getElementById("ul").appendChild(newLi);
+                 var newLi = newLi.setAttribute("id", "li"+number);
+                 var newDiv = document.createElement('div');
+                 var newDiv = document.getElementById("li"+number).appendChild(newDiv);
+                 var newDiv = newDiv.setAttribute("id", "div"+number);
+                 var  newTime = document.createElement('time');
+                 var  newTime = document.getElementById("div"+number).appendChild(newTime);
+                 var newP = document.createElement('p');
+                 var newP = document.getElementById("div"+number).appendChild(newP);
+                 var newSignal = document.createElement('signal');
+                 var newSignal = document.getElementById("div"+number).appendChild(newSignal);
+                 var newSignal = newSignal.setAttribute("id", "signal"+number);
+                 
+                 newTime.innerHTML = courseInfos[i].duedate;
+                 newP.innerHTML = courseInfos[i].coursename + " "+courseInfos[i].cwkname;
+                 
+                 var message ="";
+                 var d1 = courseInfos[i].duedate;
+                 var due = new Date(d1);
+                 var datediff = due.getTime()- today.getTime();
+                 var daydiff =Math.floor(datediff / (24 * 3600 * 1000));
+                 if (daydiff<=7) {
+                     message = "due soon";
+                 }
+                 document.getElementById("signal"+number).innerHTML = message;
+               }
+
+              //detect how long till due date  
+
+             </script>
+
+        </section>
       </div>
-      <table class="table table-borderless">
-        <colgroup>
-          <col class="course" span="1">
-          <col class="course-info" span="2">
-        </colgroup>
-        <thead>
-          <tr id="table-head">
-            <th id="cell-topleft" scope="col">Courses</th>
-            <th scope="col">Assignments</th>
-            <th id="cell-topright" scope="col">Due Dates</th>
-          </tr>
-        </thead>
+      <div class="col-sm-9 bckgrd">
+        <div>
+          <span class="material-icons login">account_circle</span>
+        </div>
+        <div id="object-center">
+          <h1>SPOT v2</h1>
+          <div class="form-outline">
+            <input type="search" id="form1" class="form-control" placeholder="Search for Courses" aria-label="Search"/>
+          </div>
+          <table class="table table-borderless" style="margin-bottom: 0;">
+            <colgroup>
+              <col class="course" span="1">
+              <col class="course-info" span="2">
+            </colgroup>
+            <thead>
+              <tr id="table-head">
+                <th id="cell-topleft" scope="col" , style="width: 33%;">Courses</th>
+                <th scope="col" , style="width: 33%;">Assignments</th>
+                <th id="cell-topright" scope="col" , style="width: 33.5%;">Due Dates</th>
+              </tr>
+            </thead>
+          </table>
+          <div class="tablelocker ", id = "packageThing">
+            <table id="table" class="table table-borderless" style="margin: 0;">
+              <colgroup>
+                <col class="course" span="1">
+                <col class="course-info" span="2">
+              </colgroup>
+              {% for key, value in items.items %}
+                <tbody class="course-row">
 
-        {% for key, value in items.items %}
-          <tbody class="course-row">
+                {% for assignment in value %}
+                  {% if forloop.counter == 1 %}
+                  <tr>
+                    <th scope="row" rowspan="{{ value|length }}" style="width: 33%;">{{key}}</th>
+                    <td style="width: 33%;">{{assignment}}</td>
+                    <td style="width: 33%;">{{assignment.DateDue}}
 
-          {% for assignment in value %}
-            {% if forloop.counter == 1 %}
-            <tr>
-              <th scope="row" rowspan="{{ value|length }}">{{key}}</th>
-              <td>{{assignment}}</td>
-              <td>{{assignment.DateDue}}</td>
-            </tr>
+                      <div class="dropdown" style="float: right;">
 
-            {% elif forloop.parentloop.counter == items|length and forloop.counter == 1 %}
-            <tr>
-              <th scope="row" rowspan="{{ value|length }}" id="yoyo">{{key}}</th>
-              <td>{{assignment}}</td>
-              <td>{{assignment.DateDue}}</td>
-            </tr >
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;">
+                            <i class="fa fa-calendar-plus-o"></i>
+                          </button>
 
-            {% elif forloop.parentloop.counter == items|length and forloop.counter == value|length %}
-            <tr>
-              <td>{{assignment}}</td>
-              <td id="cell-bottomright">{{assignment.DateDue}}</td>
-            </tr>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                          </div>
+
+                        </div>
+
+                    </td>
+                  </tr>
+
+                  {% elif forloop.parentloop.counter == items|length and forloop.counter == 1 %}
+                  <tr>
+                    <th scope="row" rowspan="{{ value|length }}" style="width: 33%;">{{key}}</th>
+                    <td style="width: 33%;">{{assignment}}</td>
+                    <td style="width: 33%;">{{assignment.DateDue}}
+                      <div class="dropdown" style="float: right;">
+
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;">
+                            <i class="fa fa-calendar-plus-o"></i>
+                          </button>
+
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                          </div>
+
+                        </div>
+                    </td>
+                  </tr>
+
+                  {% elif forloop.parentloop.counter == items|length and forloop.counter == value|length %}
+                  <tr>
+                    <td>{{assignment}}</td>
+                    <td id="cell-bottomright">{{assignment.DateDue}}
+                      <div class="dropdown" style="float: right;">
+
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;">
+                            <i class="fa fa-calendar-plus-o"></i>
+                          </button>
+
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                          </div>
+
+                        </div>
+                    </td>
+                  </tr>
 
 
-            {% else %}
-            <tr>
-              <td>{{assignment}}</td>
-              <td>{{assignment.DateDue}}</td>
-            </tr>
-            {% endif %}
+                  {% else %}
+                  <tr>
+                    <td>{{assignment}}</td>
+                    <td>{{assignment.DateDue}}
+                      <div class="dropdown" style="float: right;">
+
+                          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" style="margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;">
+                            <i class="fa fa-calendar-plus-o"></i>
+                          </button>
+
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
+                            <a class="dropdown-item" href="ttps://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
+                          </div>
+
+                        </div>
+                    </td>
+                  </tr>
+                  {% endif %}
 
 
-          {% endfor %}
+                {% endfor %}
 
-          </tbody>
-        {% endfor %}
+                </tbody>
+              {% endfor %}
+            </table>
 
-       
-      </table>
+          </div>
+           
+          </table>
+          <a href="https://campaigns.litmus.com/_email/test/newnewyork.ics" class="btn btn-info" style=""><span style="mso-text-raise:15pt;"><i class = "fa fa-calendar-plus-o"></i> Add  all to your Calendar</span></a>
+
+        </div>
+      </div>
+      
     </div>
+    
+    <script>
+      $(document).ready(function(){
+        $("#form1").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#table tbody").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+    </script>
+
   </body>
 </html>
 
 <style media="screen">
+  .row {
+    width: 100%;
+    margin: 0;
+    overflow-y:auto;
+    display: flex;
+    height: 100vh;
+    
 
-body{
-  /* I have no idea why the code below doesn't give me a gradient, please help */
-  /* background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%); */
-  background: #1976D2;
-}
+  }
+  .col {
+    margin: 0;
+  }
+  .col-sm-9 {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 5%;
 
-.material-icons.login{
-  color: white;
-  font-size: 48px;
-  position: absolute;
-  right: 5%;
-  top: 5%;
-}
+  }
+  .col-sm-3 {
+    box-shadow: inset -4px 0px 4px rgba(0, 0, 0, 0.25);
+    padding-right: 2%;
+    height: 100vh;
+    overflow-y: auto;
 
-#object-center{
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  right: 10%;
-}
+  }
 
-h1{
-  font-family: 'Fredoka One', cursive;
-  font-size: 60px;
-  color: white;
-}
+  .timeline {
+    font: normal 16px/1.5 "Helvetica Neue", sans-serif;
+    background: #FFFFFF;
+    color: #fff;
+    overflow-x: hidden;
+    
+  } 
 
-#form1{
-  border-radius: 33px;
-  background: #E3F2FD;
-  border: 4px solid white;
-  font-family: 'Comfortaa', cursive;
-}
+  .timeline ul li {
+    list-style-type: none;
+    position: relative;
+    width: 6px;
+    margin: 0 auto;
+    margin-left: 50px;
+    padding-top: 50px;
+    background: #6EC4DF;
+  }
+   
+  .timeline ul li::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: inherit;
+  }
 
-.table, #bootstrap-overide th, #bootstrap-overide td{
-  line-height: 5px;
-  font-family: 'Comfortaa', cursive;
-  text-align: center;
-  vertical-align: middle;
-  border-collapse: separate;
-  border-spacing: 0px;
-  margin-top: 25px;
-}
+  .timeline ul li div {
+    position: relative;
+    bottom: 0;
+    width: 400px;
+    padding: 15px;
+    background: linear-gradient(65.61deg, #6EC4DF 20.78%, #1D79D3 96.25%);
+  }
+   
+  .timeline ul li div::before {
+    content: '';
+    position: absolute;
+    bottom: 7px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
 
-td{
-  font-size: 12px;
-}
+  .timeline ul li:nth-child(odd) div {
+    left: 45px;
+  }
+   
+  .timeline ul li:nth-child(odd) div::before {
+    left: -15px;
+    border-width: 8px 16px 8px 0;
+    border-color: transparent #6EC4DF transparent transparent;
+  }
 
-thead{
-  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-  border-top-left-radius: 33px;
-  border-bottom-left-radius: 33px;
-}
+  .timeline ul li:nth-child(even) div {
+    left: 45px;
+  }
+   
+  .timeline ul li:nth-child(even) div::before {
+    left: -15px;
+    border-width: 8px 16px 8px 0;
+    border-color: transparent #6EC4DF transparent transparent;
+  }
 
-tbody{
-  background: #c9f1fd;
-}
+  .bckgrd {
+    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+  }
 
-#bootstrap-overide thead th{
-  line-height: 40px;
-  border-top: 4px solid white;
-  color: white;
-}
 
-/* This is the only way I could find to make bordered tables. I'm sorry */
-/* It looks weird on Firefox, but should work on Chrome and Edge. Will fix later */
-th, td{
-  border-right: 4px solid white;
-}
+  .material-icons.login{
+    float: right;
+    color: white;
+    font-size: 300%;
+    right: 5%;
+    top: 5%;
+  }
 
-#bootstrap-overide th,
-#bootstrap-overide tbody.course-row tr:last-child td{
-  border-bottom: 4px solid white;
-}
 
-th:first-child{
-  border-left: 4px solid white;
-}
 
-#cell-topleft{
-  border-top-left-radius: 33px;
-}
+  h1{
+    font-family: 'Fredoka One', cursive;
+    font-size: 500%;
+    color: white;
+  }
 
-#cell-topright{
-  border-top-right-radius: 33px;
-}
+  #form1{
+    border-radius: 33px;
+    background: #E3F2FD;
+    border: 4px solid white;
+    font-family: 'Comfortaa', cursive;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
 
-#cell-bottomleft{
-  border-bottom-left-radius: 33px;
-}
+  .tablelocker {
+    height: 45vh;
+    overflow-y: auto;
+    border-bottom: 4px solid white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
+  }
 
-#cell-bottomright{
-  border-bottom-right-radius: 33px;
-}
+  .table, #bootstrap-overide th, #bootstrap-overide td{
+    line-height: 60%;
+    font-family: 'Comfortaa', cursive;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 10px;
+  }
 
-/* #yoyo {
-  border-radius:30px 0 0 30px;
-} */
+  td{
+    font-size: 70%;
+  }
 
-/* table th:last-child{
-  border-radius:0 30px 30px 0;
-} */
+  thead{
+    background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  }
+
+  tbody{
+    background: #c9f1fd;
+    cursor: pointer;
+  }
+
+  thead, tbody, col{
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+    border-right: 4px solid white;
+  }
+
+  #bootstrap-overide thead th{
+    line-height: 40px;
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: .3vw;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: white; 
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6ec4de; 
+  }
+
+  .btn-info {
+    background: #c9f1fd;
+    border-radius: 20px;
+    width: 40%;  
+    font-family: Comfortaa;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: none;
+    margin-top: 3vw;
+    float: right;
+  }
+
 </style>
