@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <?php
 /**
  * This is an example of how to authenticate a user with a University username
@@ -55,11 +56,16 @@ Authenticator::validateUser();
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <title>SPOTv2</title>
   </head>
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
   <body id="bootstrap-overide">
+
+    </div>
     <div class="row">
       <div class="col-sm-3">
         <section class="timeline">
@@ -108,22 +114,11 @@ Authenticator::validateUser();
                  }
                  document.getElementById("signal"+number).innerHTML = message;
                }
-                 
-
 
               //detect how long till due date  
 
-
-               
-
-
-
-
              </script>
-         
-        
 
-         
         </section>
       </div>
       <div class="col-sm-9 bckgrd">
@@ -142,39 +137,45 @@ Authenticator::validateUser();
             </colgroup>
             <thead>
               <tr id="table-head">
-                <th id="cell-topleft" scope="col">Courses</th>
-                <th scope="col">Assignments</th>
-                <th id="cell-topright" scope="col">Due Dates</th>
+                <th id="cell-topleft" scope="col", style="width: 33%;">Courses</th>
+                <th scope="col", style="width: 33%;" >Assignments</th>
+                <th id="cell-topright" scope="col", style="width: 33.5%;">Due Dates</th>
               </tr>
             </thead>
           </table>
-          <div class="tablelocker", id = "packageThing">
+
+          <div class="tablelocker ", id = "packageThing">
             <table id="table" class="table table-borderless" style="margin: 0;">
               <colgroup>
                 <col class="course" span="1">
                 <col class="course-info" span="2">
               </colgroup>
               
-              
             </table>
           </div>
           
         </div>
+
+
+
+        <!-- <Here we need to change the link to our ics file if we get to it!!! -->
+
+       <a href="https://campaigns.litmus.com/_email/test/newnewyork.ics" class="btn btn-info" style=""><span style="mso-text-raise:15pt;"><i class = "fa fa-calendar-plus-o"></i> Add  all to your Calendar</span></a>
+
       </div>
     </div>
     
       <script type="text/javascript">
-      
 
-      {% for key, value in context %}
-      
-      var crswrk = value
-      var crswrk_date = []
-      for (let assignment of crswrk) {
-        crswrk_date.push(assignment.DueDate)
-      }
+        {% for key, value in context %}
+        
+        var crswrk = value
+        var crswrk_date = []
+        for (let assignment of crswrk) {
+          crswrk_date.push(assignment.DueDate)
+        }
 
-      {% endfor %}
+        {% endfor %}
 
         var crs = ["COMP10120", "COMP11120", "COMP12111", "COMP15111", "COMP16321", "COMP11212", "COMP13212", "COMP15212", "COMP16421"];
         var crswrk = ["Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4", "Assignment 5",
@@ -200,6 +201,7 @@ Authenticator::validateUser();
               var crs_th = document.createElement("th");
               crs_th.setAttribute("scope", "row");
               crs_th.setAttribute("rowspan", crswrk.length);
+              crs_th.setAttribute("style", "width: 33%;");
               crs_th.innerHTML = crs[i];
               crswrk_row.appendChild(crs_th);
             }
@@ -208,8 +210,54 @@ Authenticator::validateUser();
             var crswrk_date_cell = document.createElement("td");
             crswrk_cell.innerHTML = crswrk[j];
             crswrk_date_cell.innerHTML = crswrk_date[j];
+            crswrk_cell.setAttribute("style", "width: 33%;");
+            crswrk_date_cell.setAttribute("style", "width: 33%;");
+
+//the calendar buttons
+            var crswrk_calendar = document.createElement("div");
+            crswrk_calendar.setAttribute("class", "dropdown");
+            crswrk_calendar.setAttribute("style", "float: right;");
+
+            var cal_btn = document.createElement("button");
+            cal_btn.setAttribute("class", "btn btn-info dropdown-toggle");
+            cal_btn.setAttribute("data-toggle", "dropdown");
+            cal_btn.setAttribute("style", "margin: 0; background: #1976D2; width: 3vw; font-size: 100%; color: white;");
+
+            var cal_ico = document.createElement("i");
+            cal_ico.setAttribute("class", "fa fa-calendar-plus-o");
+
+            cal_btn.appendChild(cal_ico);
+
+            var cal_menu = document.createElement("div");
+            cal_menu.setAttribute("class", "dropdown-menu");
+
+            var cal_link1 = document.createElement("a");
+            cal_link1.setAttribute("class", "dropdown-item");
+            cal_link1.setAttribute("href", "https://outlook.office.com/calendar/0/deeplink/compose?body=Sample%20Deadline%20Calendar%20event&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=Spot%20Version%20two&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject=Sample%20Deadline%20Event");
+            cal_link1.setAttribute("target", "_blank");
+            cal_link1.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
+            cal_link1.innerHTML = "Outlook.com";
+
+            var cal_link2 = document.createElement("a");
+            cal_link2.setAttribute("class", "dropdown-item");
+            cal_link2.setAttribute("href", "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details=Sample%20Deadline%20Calendar%20event&location=Spot%20Version%20two&text=Sample%20Deadline%20Event");
+            cal_link2.setAttribute("target", "_blank");
+            cal_link2.setAttribute("style", "text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));");
+            cal_link2.innerHTML = "Google";
+
+            cal_menu.appendChild(cal_link1);
+            cal_menu.appendChild(cal_link2);
+
+            crswrk_calendar.appendChild(cal_btn);
+            crswrk_calendar.appendChild(cal_menu);
+
+            crswrk_date_cell.appendChild(crswrk_calendar);
+
+//end of calendar buttons
+
             crswrk_row.appendChild(crswrk_cell);
             crswrk_row.appendChild(crswrk_date_cell);
+
             crs_row.appendChild(crswrk_row);
           }
           document.getElementById("table").appendChild(crs_row);
@@ -263,15 +311,17 @@ Authenticator::validateUser();
 
       </script>
 
+<!-- < table lookup  -->
+
     <script>
-    $(document).ready(function(){
-      $("#form1").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#table tbody").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      $(document).ready(function(){
+        $("#form1").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $("#table tbody").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
         });
       });
-    });
     </script>
 
     
@@ -282,13 +332,26 @@ Authenticator::validateUser();
 <style media="screen">
   .row {
     width: 100%;
-    height: 100vh;
     margin: 0;
-    overflow-y: hidden;
+    overflow-y:auto;
+
   }
   .col {
     height: 100vh;
     margin: 0;
+  }
+  .col-sm-9 {
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+  }
+  .col-sm-3 {
+    box-shadow: inset -4px 0px 4px rgba(0, 0, 0, 0.25);
+    padding-right: 2%;
+    height: 100vh;
+    overflow-y: auto;
+
   }
 
   .timeline {
@@ -297,12 +360,8 @@ Authenticator::validateUser();
     color: #fff;
     overflow-x: hidden;
     padding-bottom: 50px;
+    
   } 
-
-
-
-
-
 
   .timeline ul li {
     list-style-type: none;
@@ -363,77 +422,109 @@ Authenticator::validateUser();
     border-color: transparent #6EC4DF transparent transparent;
   }
 
-/*html {
-  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-  height: 100%;
-}*/
-.bckgrd {
-  background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
-  height: 100%; 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 0;
-}
+  .bckgrd {
+    background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+  }
 
 
-.material-icons.login{
-  color: white;
-  font-size: 300%;
-  position: absolute;
-  right: 5%;
-  top: 5%;
-}
+  .material-icons.login{
+    float: right;
+    color: white;
+    font-size: 300%;
+    right: 5%;
+    top: 5%;
+  }
 
 
 
-h1{
-  font-family: 'Fredoka One', cursive;
-  font-size: 500%;
-  color: white;
-}
+  h1{
+    font-family: 'Fredoka One', cursive;
+    font-size: 500%;
+    color: white;
+  }
 
-#form1{
-  border-radius: 33px;
-  background: #E3F2FD;
-  border: 4px solid white;
-  font-family: 'Comfortaa', cursive;
-}
+  #form1{
+    border-radius: 33px;
+    background: #E3F2FD;
+    border: 4px solid white;
+    font-family: 'Comfortaa', cursive;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
 
-.tablelocker {
-  height: 65vh;
-  overflow-y: auto;
-}
+  .tablelocker {
+    height: 45vh;
+    overflow-y: auto;
+    border-bottom: 4px solid white;
+    box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.25);
+  }
 
-.table, #bootstrap-overide th, #bootstrap-overide td{
-  line-height: 60%;
-  font-family: 'Comfortaa', cursive;
-  text-align: center;
-  vertical-align: middle;
-  margin-top: 25px;
+  .table, #bootstrap-overide th, #bootstrap-overide td{
+    line-height: 60%;
+    font-family: 'Comfortaa', cursive;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 10px;
+  }
 
-}
+  td{
+    font-size: 70%;
+  }
 
-td{
-  font-size: 70%;
-}
+  thead{
+    background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
+  }
 
-thead{
-  background: linear-gradient(to left, #1976D2 0%, #6ec4de 100%);
-}
+  tbody{
+    background: #c9f1fd;
+    cursor: pointer;
+  }
 
-tbody{
-  background: #c9f1fd;
-  cursor: pointer;
-}
+  thead, tbody, col{
+    border-top: 4px solid white;
+    border-left: 4px solid white;
+    border-right: 4px solid white;
+  }
 
-thead, tbody, col{
-  border: 4px solid white;
-}
+  #bootstrap-overide thead th{
+    line-height: 40px;
+    color: white;
+  }
 
-#bootstrap-overide thead th{
-  line-height: 40px;
-  color: white;
-}
+  ::-webkit-scrollbar {
+    width: .3vw;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: white; 
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6ec4de; 
+  }
+
+  .btn-info {
+    background: #c9f1fd;
+    border-radius: 20px;
+    width: 40%;  
+    font-family: Comfortaa;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border: none;
+    margin-top: 3vw;
+    float: right;
+  }
 
 </style>
