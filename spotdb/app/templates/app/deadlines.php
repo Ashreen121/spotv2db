@@ -161,9 +161,9 @@ Authenticator::validateUser();
                           <div class="dropdown-menu">
                             <a class="dropdown-item" href="https://outlook.office.com/calendar/0/deeplink/compose?body={{key}}%20{{assignment}}&enddt={{assignment.DateDue}}&location=N%2FA&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt={{assignment.DateDue}}&subject={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Outlook.com</a>
                             <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates={{assignment.DateDue}}%{{assignment.DateDue}}&details={{key}}%20{{assignment}}&location=N%2FA&text={{assignment}}" target="_blank" style="text-decoration-line: none; background-color: #1976D2; color: white; font-family: Comfortaa; padding: 1vw; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));">Google</a>
-                          </div>
+                          </div> 
 
-                        </div>
+                        </div >
                     </td>
                   </tr>
 
