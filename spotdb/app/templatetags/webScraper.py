@@ -1133,3 +1133,9 @@ from bs4 import BeautifulSoup
     csv_writer = writer(database)
     csv_writer.writerow(
         ["Course", "Credits", "Students", "Courseleader", "Email", "Assessment Method"])
+    
+    courseLinks = []
+    courses = []
+    for i in anchorPositionTutors:
+        link = ((i.find('a'))['href'])
+        courseLinks.append(link)
