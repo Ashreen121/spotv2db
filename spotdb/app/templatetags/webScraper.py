@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from csv import writer
+from re import sub
+from re import search
 
     html = '''
     <!DOCTYPE html>
