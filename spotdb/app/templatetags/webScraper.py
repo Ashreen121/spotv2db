@@ -1154,4 +1154,16 @@ from bs4 import BeautifulSoup
             else:
                 courses.append(course)
         
+        with open("tutorsPage.csv", "a", newline='') as database:
+            csv_writer = writer(database)
+
+            result = search('Credits: (.*)Enrolled', (i.get_text()))
+            credits = result.group(1)
+
+            result = search('students: (\d*)', (i.get_text()))
+            students = result.group(1)
+
+            result = search('leader: (.*)Additional staff', (i.get_text()))
+            courseLeader = result.group(1)
+        
         
