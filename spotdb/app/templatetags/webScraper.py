@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from csv import writer
 import requests
+from csv import writer
 from re import sub
 from re import search
 from django import template
@@ -10,6 +10,7 @@ register = template.Library()
 
 @register.simple_tag
 def scrape_now(printer):
+
     html = '''
     <!DOCTYPE html>
     <html lang="en">
@@ -1126,7 +1127,7 @@ def scrape_now(printer):
     </body>
     </html>
     '''
-    
+
     req1 = requests.get(printer)
     courseParsed = BeautifulSoup(req1.text, "html.parser")
     anchorPosition = courseParsed.select(".table-notlateFlag")
@@ -1135,30 +1136,28 @@ def scrape_now(printer):
         parsed = BeautifulSoup(html, "html.parser")
     else:
         parsed = courseParsed
-        
+
     anchorPosition = parsed.select(".table-notlateFlag")
     anchorPositionTutors = parsed.select(".courseHeader")
     anchorPositionName = parsed.select(".font-weight\:bold")
-    
     studentName = anchorPositionName[1].get_text()
-    
+
     with open("spotV2.csv", "w", newline='') as database:
-    csv_writer = writer(database)
-    csv_writer.writerow(
-        ["Course", "Assignment", "Marks", "Deadline", "Student Name"])
-    
+        csv_writer = writer(database)
+        csv_writer.writerow(
+            ["Course", "Assignment", "Marks", "Deadline", "Student Name"])        
+
     with open("tutorsPage.csv", "w", newline='') as database:
-    csv_writer = writer(database)
-    csv_writer.writerow(
-        ["Course", "Credits", "Students", "Courseleader", "Email", "Assessment Method"])
-    
+        csv_writer = writer(database)
+        csv_writer.writerow(
+            ["Course", "Credits", "Students", "Courseleader", "Email", "Assessment Method"])
+
     courseLinks = []
     courses = []
-    
     for i in anchorPositionTutors:
         link = ((i.find('a'))['href'])
         courseLinks.append(link)
-        
+
         req = requests.get(link)
         courseParsed = BeautifulSoup(req.text, "html.parser")
         tutorAnchor = courseParsed.select(".mainContentContainer")
@@ -1171,111 +1170,110 @@ def scrape_now(printer):
                 break
             else:
                 courses.append(course)
-        
-        with open("tutorsPage.csv", "a", newline='') as database:
+
+            with open("tutorsPage.csv", "a", newline='') as database:
+                csv_writer = writer(database)
+
+                result = search('Credits: (.*)Enrolled', (i.get_text()))
+                credits = result.group(1)
+
+                result = search('students: (\d*)', (i.get_text()))
+                students = result.group(1)
+
+                result = search('leader: (.*)Additional staff', (i.get_text()))
+                courseLeader = result.group(1)
+
+                if (course == "COMP11120 Mathematical Techniques for Computer Science") or (course == "COMP11212 Fundamentals of Computation"):
+                    result = search(
+                        'Assessment methods(.*)Timetable', (i.get_text()))
+                else:
+                    result = search(
+                        'Assessment methods(.*) assessment', (i.get_text()))
+                assessmentMethod = result.group(1)
+
+                if course[4:9] == "11120":
+                    email = "andrea.schalk@manchester.ac.uk"
+                elif course[4:9] == "10120":
+                    email = "Uli.Sattler@manchester.ac.u"
+                elif course[4:9] == "12111":
+                    email = "P.Nutter@manchester.ac.uk"
+                elif course[4:9] == "15111":
+                    email = "Christos.Kotselidis@manchester.ac.uk"
+                elif course[4:9] == "16321":
+                    email = "gareth.henshall@manchester.ac.uk"
+                elif course[4:9] == "11212":
+                    email = "sean.k.bechhofer@manchester.ac.uk"
+                elif course[4:9] == "13212":
+                    email = "jonathan.l.shapiro@manchester.ac.uk"
+                elif course[4:9] == "15212":
+                    email = "steve.pettifer@manchester.ac.uk"
+                elif course[4:9] == "16412":
+                    email = "markel.vigo@manchester.ac.uk"
+
+                csv_writer.writerow(
+                    [course, credits, students, courseLeader, email, assessmentMethod])
+
+    for database in anchorPosition:
+        name = database.find_previous_sibling().get_text()
+        marks = database.get_text()
+        marks = sub('[^\w\()\/\%]', '', marks)
+        deadline = database.find_next_sibling().get_text()
+
+        with open("spotV2.csv", "a", newline='') as database:
             csv_writer = writer(database)
+            if name[0:5] == "11120":
+                name = sub('11120-', '', name)
+                course = "COMP11120 Mathematical Techniques for Computer Science"
+            elif name[0:5] == "10120":
+                name = sub('10120-', '', name)
+                course = "COMP10120 First Year Team Project"
+            elif name[0:5] == "12111":
+                name = sub('12111-', '', name)
+                course = "COMP12111 Fundamentals of Computer Engineering"
+            elif name[0:5] == "15111":
+                name = sub('15111-', '', name)
+                course = "COMP15111 Fundamentals of Computer Architecture"
+            elif name[0:5] == "16321":
+                name = sub('16321-', '', name)
+                course = "COMP16321 Programming 1"
+            elif name[0:5] == "11212":
+                name = sub('11212-', '', name)
+                course = "COMP11212 Fundamentals of Computation"
+            csv_writer.writerow([course, name, marks, deadline, studentName])
 
-            result = search('Credits: (.*)Enrolled', (i.get_text()))
-            credits = result.group(1)
-
-            result = search('students: (\d*)', (i.get_text()))
-            students = result.group(1)
-
-            result = search('leader: (.*)Additional staff', (i.get_text()))
-            courseLeader = result.group(1)
-            
-             if (course == "COMP11120 Mathematical Techniques for Computer Science") or (course == "COMP11212 Fundamentals of Computation"):
-                result = search(
-                    'Assessment methods(.*)Timetable', (i.get_text()))
-            else:
-                result = search(
-                    'Assessment methods(.*) assessment', (i.get_text()))
-            assessmentMethod = result.group(1)
-            
-            if course[4:9] == "11120":
-                email = "andrea.schalk@manchester.ac.uk"
-            elif course[4:9] == "10120":
-                email = "Uli.Sattler@manchester.ac.u"
-            elif course[4:9] == "12111":
-                email = "P.Nutter@manchester.ac.uk"
-            elif course[4:9] == "15111":
-                email = "Christos.Kotselidis@manchester.ac.uk"
-            elif course[4:9] == "16321":
-                email = "gareth.henshall@manchester.ac.uk"
-            elif course[4:9] == "11212":
-                email = "sean.k.bechhofer@manchester.ac.uk"
-            elif course[4:9] == "13212":
-                email = "jonathan.l.shapiro@manchester.ac.uk"
-            elif course[4:9] == "15212":
-                email = "steve.pettifer@manchester.ac.uk"
-            elif course[4:9] == "16412":
-                email = "markel.vigo@manchester.ac.uk"
-                
-             csv_writer.writerow(
-                [course, credits, students, courseLeader, email, assessmentMethod])
-            
-for database in anchorPosition:
-    name = database.find_previous_sibling().get_text()
-    marks = database.get_text()
-    marks = sub('[^\w\()\/\%]', '', marks)
-    deadline = database.find_next_sibling().get_text()
-    
     with open("spotV2.csv", "a", newline='') as database:
         csv_writer = writer(database)
-        if name[0:5] == "11120":
-            name = sub('11120-', '', name)
-            course = "COMP11120 Mathematical Techniques for Computer Science"
-        elif name[0:5] == "10120":
-            name = sub('10120-', '', name)
-            course = "COMP10120 First Year Team Project"
-        elif name[0:5] == "12111":
-            name = sub('12111-', '', name)
-            course = "COMP12111 Fundamentals of Computer Engineering"
-        elif name[0:5] == "15111":
-            name = sub('15111-', '', name)
-            course = "COMP15111 Fundamentals of Computer Architecture"
-        elif name[0:5] == "16321":
-            name = sub('16321-', '', name)
-            course = "COMP16321 Programming 1"
-        elif name[0:5] == "11212":
-            name = sub('11212-', '', name)
-            course = "COMP11212 Fundamentals of Computation"
-        csv_writer.writerow([course, name, marks, deadline, studentName])
- 
-with open("spotV2.csv", "a", newline='') as database:
-    csv_writer = writer(database)
-    csv_writer.writerow(
-        ["COMP11212 Fundamentals of Computation", "11212-exercise2-S-Exercise 2", "/", "19-Mar-21 18:00", studentName])
-    csv_writer.writerow(
-        ["COMP11212 Fundamentals of Computation", "11212-exercise3-S-Exercise 3", "/", "23-Apr-21 17:00", studentName])
-    csv_writer.writerow(
-        ["COMP11212 Fundamentals of Computation", "11212-exercise4-S-Exercise 4", "/", "07-May-21 17:00	", studentName])
+        csv_writer.writerow(
+            ["COMP11212 Fundamentals of Computation", "11212-exercise2-S-Exercise 2", "/", "19-Mar-21 18:00", studentName])
+        csv_writer.writerow(
+            ["COMP11212 Fundamentals of Computation", "11212-exercise3-S-Exercise 3", "/", "23-Apr-21 17:00", studentName])
+        csv_writer.writerow(
+            ["COMP11212 Fundamentals of Computation", "11212-exercise4-S-Exercise 4", "/", "07-May-21 17:00	", studentName])
 
-    csv_writer.writerow(
-        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet18-S-Sheet 18", "/", "19-Apr-21 11:00", studentName])
-    csv_writer.writerow(
-        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet19-S-Sheet 19", "/", "26-Apr-21 11:00", studentName])
-    csv_writer.writerow(
-        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet20-S-Sheet 20", "/", "03-May-21 11:00", studentName])
+        csv_writer.writerow(
+            ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet18-S-Sheet 18", "/", "19-Apr-21 11:00", studentName])
+        csv_writer.writerow(
+            ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet19-S-Sheet 19", "/", "26-Apr-21 11:00", studentName])
+        csv_writer.writerow(
+            ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet20-S-Sheet 20", "/", "03-May-21 11:00", studentName])
 
-    csv_writer.writerow(
-        ["COMP16412 Programming 2", "16412-Cwk1-S-Part-1", "/", "12-Mar-21 18:00", studentName])
-    csv_writer.writerow(
-        ["COMP16412 Programming 2", "16412-Cwk2-S-Part-2", "/", "30-Apr-21 17:00", studentName])
+        csv_writer.writerow(
+            ["COMP16412 Programming 2", "16412-Cwk1-S-Part-1", "/", "12-Mar-21 18:00", studentName])
+        csv_writer.writerow(
+            ["COMP16412 Programming 2", "16412-Cwk2-S-Part-2", "/", "30-Apr-21 17:00", studentName])
 
-    csv_writer.writerow(
-        ["COMP15212 Operating Systems", "15212-Lab3-S-Cache", "/", "16-Apr-21 17:00", studentName])
-    csv_writer.writerow(
-        ["COMP15212 Operating Systems", "15212-Lab5-S-Experiment", "/", "14-May-21 17:00", studentName])
+        csv_writer.writerow(
+            ["COMP15212 Operating Systems", "15212-Lab3-S-Cache", "/", "16-Apr-21 17:00", studentName])
+        csv_writer.writerow(
+            ["COMP15212 Operating Systems", "15212-Lab5-S-Experiment", "/", "14-May-21 17:00", studentName])
 
-    csv_writer.writerow(
-        ["COMP13212 Data Science", "13212-LAB4-S-Statistical reasoning", "/", "16-Apr-21 12:27", studentName])
-    csv_writer.writerow(
-        ["COMP13212 Data Science", "13212-LAB5-S-Machine Learning", "/", "07-May-21 17:00", studentName])
-        
-    newpr = "Hi, spot url is " + printer + ", the scrapes has finished executing!"
-    return newpr
+        csv_writer.writerow(
+            ["COMP13212 Data Science", "13212-LAB4-S-Statistical reasoning", "/", "16-Apr-21 12:27", studentName])
+        csv_writer.writerow(
+            ["COMP13212 Data Science", "13212-LAB5-S-Machine Learning", "/", "07-May-21 17:00", studentName])
 
-if __name__ == "__main__":
+        newpr = "Hi, spot url is " + printer + ", the scrapes has finished executing!"
+        return newpr
+
+    if __name__ == "__main__":
         main(sys.argv[1])
-        
