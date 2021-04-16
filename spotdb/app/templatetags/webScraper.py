@@ -1196,5 +1196,10 @@ from csv import writer
                 
              csv_writer.writerow(
                 [course, credits, students, courseLeader, email, assessmentMethod])
+            
+for database in anchorPosition:
+    name = database.find_previous_sibling().get_text()
+    marks = database.get_text()
+    deadline = database.find_next_sibling().get_text()
         
         
