@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from csv import writer
 
     html = '''
     <!DOCTYPE html>
@@ -1192,5 +1193,8 @@ from bs4 import BeautifulSoup
                 email = "steve.pettifer@manchester.ac.uk"
             elif course[4:9] == "16412":
                 email = "markel.vigo@manchester.ac.uk"
+                
+             csv_writer.writerow(
+                [course, credits, students, courseLeader, email, assessmentMethod])
         
         
