@@ -272,7 +272,7 @@ Authenticator::validateUser();
     background: #FFFFFF;
     color: #fff;
     overflow-x: hidden;
-    
+    font-size: xx-small;
   } 
 
   .timeline ul li {
@@ -303,6 +303,7 @@ Authenticator::validateUser();
     width: 400px;
     padding: 15px;
     background: linear-gradient(65.61deg, #6EC4DF 20.78%, #1D79D3 96.25%);
+    left: 45px;
   }
    
   .timeline ul li div::before {
@@ -312,27 +313,11 @@ Authenticator::validateUser();
     width: 0;
     height: 0;
     border-style: solid;
-  }
-
-  .timeline ul li:nth-child(odd) div {
-    left: 45px;
-  }
-   
-  .timeline ul li:nth-child(odd) div::before {
     left: -15px;
     border-width: 8px 16px 8px 0;
     border-color: transparent #6EC4DF transparent transparent;
   }
-
-  .timeline ul li:nth-child(even) div {
-    left: 45px;
-  }
    
-  .timeline ul li:nth-child(even) div::before {
-    left: -15px;
-    border-width: 8px 16px 8px 0;
-    border-color: transparent #6EC4DF transparent transparent;
-  }
 
   .bckgrd {
     background: linear-gradient(65.61deg, #6EC4DF 2.78%, #1D79D3 84.25%);
