@@ -1124,12 +1124,12 @@ from bs4 import BeautifulSoup
     
     studentName = anchorPositionName[1].get_text()
     
-    with open("spotV2.csv", "w") as database:
+    with open("spotV2.csv", "w", newline='') as database:
     csv_writer = writer(database)
     csv_writer.writerow(
         ["Course", "Assignment", "Marks", "Deadline", "Student Name"])
     
-    with open("tutorsPage.csv", "w") as database:
+    with open("tutorsPage.csv", "w", newline='') as database:
     csv_writer = writer(database)
     csv_writer.writerow(
         ["Course", "Credits", "Students", "Courseleader", "Email", "Assessment Method"])
