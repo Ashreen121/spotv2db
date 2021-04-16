@@ -1173,5 +1173,24 @@ from bs4 import BeautifulSoup
                 result = search(
                     'Assessment methods(.*) assessment', (i.get_text()))
             assessmentMethod = result.group(1)
+            
+            if course[4:9] == "11120":
+                email = "andrea.schalk@manchester.ac.uk"
+            elif course[4:9] == "10120":
+                email = "Uli.Sattler@manchester.ac.u"
+            elif course[4:9] == "12111":
+                email = "P.Nutter@manchester.ac.uk"
+            elif course[4:9] == "15111":
+                email = "Christos.Kotselidis@manchester.ac.uk"
+            elif course[4:9] == "16321":
+                email = "gareth.henshall@manchester.ac.uk"
+            elif course[4:9] == "11212":
+                email = "sean.k.bechhofer@manchester.ac.uk"
+            elif course[4:9] == "13212":
+                email = "jonathan.l.shapiro@manchester.ac.uk"
+            elif course[4:9] == "15212":
+                email = "steve.pettifer@manchester.ac.uk"
+            elif course[4:9] == "16412":
+                email = "markel.vigo@manchester.ac.uk"
         
         
