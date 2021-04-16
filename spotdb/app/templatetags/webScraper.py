@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from csv import writer
+import requests
 from re import sub
 from re import search
 from django import template
@@ -8,6 +9,7 @@ register = template.Library()
 
 
 @register.simple_tag
+def scrape_now(printer):
     html = '''
     <!DOCTYPE html>
     <html lang="en">
@@ -1125,7 +1127,15 @@ register = template.Library()
     </html>
     '''
     
-    parsed = BeautifulSoup(html, "html.parser")
+    req1 = requests.get(printer)
+    courseParsed = BeautifulSoup(req1.text, "html.parser")
+    anchorPosition = courseParsed.select(".table-notlateFlag")
+
+    if (anchorPosition) == []:
+        parsed = BeautifulSoup(html, "html.parser")
+    else:
+        parsed = courseParsed
+        
     anchorPosition = parsed.select(".table-notlateFlag")
     anchorPositionTutors = parsed.select(".courseHeader")
     anchorPositionName = parsed.select(".font-weight\:bold")
