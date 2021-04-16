@@ -1202,5 +1202,27 @@ for database in anchorPosition:
     marks = database.get_text()
     marks = sub('[^\w\()\/\%]', '', marks)
     deadline = database.find_next_sibling().get_text()
+    
+    with open("spotV2.csv", "a", newline='') as database:
+        csv_writer = writer(database)
+        if name[0:5] == "11120":
+            name = sub('11120-', '', name)
+            course = "COMP11120 Mathematical Techniques for Computer Science"
+        elif name[0:5] == "10120":
+            name = sub('10120-', '', name)
+            course = "COMP10120 First Year Team Project"
+        elif name[0:5] == "12111":
+            name = sub('12111-', '', name)
+            course = "COMP12111 Fundamentals of Computer Engineering"
+        elif name[0:5] == "15111":
+            name = sub('15111-', '', name)
+            course = "COMP15111 Fundamentals of Computer Architecture"
+        elif name[0:5] == "16321":
+            name = sub('16321-', '', name)
+            course = "COMP16321 Programming 1"
+        elif name[0:5] == "11212":
+            name = sub('11212-', '', name)
+            course = "COMP11212 Fundamentals of Computation"
+        csv_writer.writerow([course, name, marks, deadline, studentName])
         
         
