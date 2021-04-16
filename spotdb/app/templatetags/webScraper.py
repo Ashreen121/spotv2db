@@ -1200,6 +1200,7 @@ from csv import writer
 for database in anchorPosition:
     name = database.find_previous_sibling().get_text()
     marks = database.get_text()
+    marks = sub('[^\w\()\/\%]', '', marks)
     deadline = database.find_next_sibling().get_text()
         
         
