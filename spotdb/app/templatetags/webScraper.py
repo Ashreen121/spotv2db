@@ -2,7 +2,12 @@ from bs4 import BeautifulSoup
 from csv import writer
 from re import sub
 from re import search
+from django import template
 
+register = template.Library()
+
+
+@register.simple_tag
     html = '''
     <!DOCTYPE html>
     <html lang="en">
@@ -1258,4 +1263,9 @@ with open("spotV2.csv", "a", newline='') as database:
     csv_writer.writerow(
         ["COMP13212 Data Science", "13212-LAB5-S-Machine Learning", "/", "07-May-21 17:00", studentName])
         
+    newpr = "Hi, spot url is " + printer + ", the scrapes has finished executing!"
+    return newpr
+
+if __name__ == "__main__":
+        main(sys.argv[1])
         
