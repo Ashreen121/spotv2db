@@ -1128,3 +1128,8 @@ from bs4 import BeautifulSoup
     csv_writer = writer(database)
     csv_writer.writerow(
         ["Course", "Assignment", "Marks", "Deadline", "Student Name"])
+    
+    with open("tutorsPage.csv", "w") as database:
+    csv_writer = writer(database)
+    csv_writer.writerow(
+        ["Course", "Credits", "Students", "Courseleader", "Email", "Assessment Method"])
