@@ -1123,3 +1123,8 @@ from bs4 import BeautifulSoup
     anchorPositionName = parsed.select(".font-weight\:bold")
     
     studentName = anchorPositionName[1].get_text()
+    
+    with open("spotV2.csv", "w") as database:
+    csv_writer = writer(database)
+    csv_writer.writerow(
+        ["Course", "Assignment", "Marks", "Deadline", "Student Name"])
