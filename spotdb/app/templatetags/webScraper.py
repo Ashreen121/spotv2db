@@ -1136,6 +1136,22 @@ from bs4 import BeautifulSoup
     
     courseLinks = []
     courses = []
+    
     for i in anchorPositionTutors:
         link = ((i.find('a'))['href'])
         courseLinks.append(link)
+        
+        req = requests.get(link)
+        courseParsed = BeautifulSoup(req.text, "html.parser")
+        tutorAnchor = courseParsed.select(".mainContentContainer")
+
+        for i in tutorAnchor:
+            result = search('(.*) syllabus', (i.get_text()))
+            course = result.group(1)
+
+            if course in courses:
+                break
+            else:
+                courses.append(course)
+        
+        
