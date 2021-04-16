@@ -1165,5 +1165,13 @@ from bs4 import BeautifulSoup
 
             result = search('leader: (.*)Additional staff', (i.get_text()))
             courseLeader = result.group(1)
+            
+             if (course == "COMP11120 Mathematical Techniques for Computer Science") or (course == "COMP11212 Fundamentals of Computation"):
+                result = search(
+                    'Assessment methods(.*)Timetable', (i.get_text()))
+            else:
+                result = search(
+                    'Assessment methods(.*) assessment', (i.get_text()))
+            assessmentMethod = result.group(1)
         
         
