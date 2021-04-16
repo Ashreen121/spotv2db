@@ -68,7 +68,6 @@ Authenticator::validateUser();
 
   <!-- Arbitrary id to give it more priority to overide some Bootstrap stylings -->
   <body id="bootstrap-overide">
-    {% scrape_now 'https://studentnet.cs.manchester.ac.uk/me/spot/index.php' as success_message %}
     <div class="row">
       <div class="col-sm-3">
         <section class="timeline">
