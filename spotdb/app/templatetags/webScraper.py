@@ -1224,5 +1224,36 @@ for database in anchorPosition:
             name = sub('11212-', '', name)
             course = "COMP11212 Fundamentals of Computation"
         csv_writer.writerow([course, name, marks, deadline, studentName])
+ 
+with open("spotV2.csv", "a", newline='') as database:
+    csv_writer = writer(database)
+    csv_writer.writerow(
+        ["COMP11212 Fundamentals of Computation", "11212-exercise2-S-Exercise 2", "/", "19-Mar-21 18:00", studentName])
+    csv_writer.writerow(
+        ["COMP11212 Fundamentals of Computation", "11212-exercise3-S-Exercise 3", "/", "23-Apr-21 17:00", studentName])
+    csv_writer.writerow(
+        ["COMP11212 Fundamentals of Computation", "11212-exercise4-S-Exercise 4", "/", "07-May-21 17:00	", studentName])
+
+    csv_writer.writerow(
+        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet18-S-Sheet 18", "/", "19-Apr-21 11:00", studentName])
+    csv_writer.writerow(
+        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet19-S-Sheet 19", "/", "26-Apr-21 11:00", studentName])
+    csv_writer.writerow(
+        ["COMP11120 Mathematical Techniques for Computer Science", "11120-sheet20-S-Sheet 20", "/", "03-May-21 11:00", studentName])
+
+    csv_writer.writerow(
+        ["COMP16412 Programming 2", "16412-Cwk1-S-Part-1", "/", "12-Mar-21 18:00", studentName])
+    csv_writer.writerow(
+        ["COMP16412 Programming 2", "16412-Cwk2-S-Part-2", "/", "30-Apr-21 17:00", studentName])
+
+    csv_writer.writerow(
+        ["COMP15212 Operating Systems", "15212-Lab3-S-Cache", "/", "16-Apr-21 17:00", studentName])
+    csv_writer.writerow(
+        ["COMP15212 Operating Systems", "15212-Lab5-S-Experiment", "/", "14-May-21 17:00", studentName])
+
+    csv_writer.writerow(
+        ["COMP13212 Data Science", "13212-LAB4-S-Statistical reasoning", "/", "16-Apr-21 12:27", studentName])
+    csv_writer.writerow(
+        ["COMP13212 Data Science", "13212-LAB5-S-Machine Learning", "/", "07-May-21 17:00", studentName])
         
         
