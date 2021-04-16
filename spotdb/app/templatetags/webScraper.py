@@ -1121,3 +1121,5 @@ from bs4 import BeautifulSoup
     anchorPosition = parsed.select(".table-notlateFlag")
     anchorPositionTutors = parsed.select(".courseHeader")
     anchorPositionName = parsed.select(".font-weight\:bold")
+    
+    studentName = anchorPositionName[1].get_text()
